@@ -20,6 +20,9 @@ class Rank
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $logo = null;
 
+    #[ORM\Column]
+    private ?int $required_point = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -45,6 +48,18 @@ class Rank
     public function setLogo(?string $logo): static
     {
         $this->logo = $logo;
+
+        return $this;
+    }
+
+    public function getRequiredPoint(): ?int
+    {
+        return $this->required_point;
+    }
+
+    public function setRequiredPoint(int $required_point): static
+    {
+        $this->required_point = $required_point;
 
         return $this;
     }
