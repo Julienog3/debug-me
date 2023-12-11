@@ -2,19 +2,25 @@
 
 namespace App\Form;
 
-use App\Entity\Tag;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\IsTrue;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class TagType extends AbstractType
+class EditUserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', null, ['label'=>"Nom"])
-            ->add('color', null, ['label'=>"Couleur"])
+            ->add('email', null, ['label'=>"Adresse email"])
+            ->add('firstname', null, ['label'=>"Prénom"])
+            ->add('lastname', null, ['label'=>"Nom"])
+            ->add('icon', null, ['label'=>"Icone"])
             ->add('submit', SubmitType::class   , ['label'=>"Enregistrer"])
         ;
     }
@@ -22,7 +28,7 @@ class TagType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Tag::class,
+            'data_class' => User::class,
         ]);
     }
 }

@@ -2,19 +2,19 @@
 
 namespace App\Form;
 
-use App\Entity\Tag;
+use App\Entity\Ticket;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class TagType extends AbstractType
+class TicketType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', null, ['label'=>"Nom"])
-            ->add('color', null, ['label'=>"Couleur"])
+            ->add('title', null, ['label'=>"Titre"])
+            ->add('content', null, ['label'=>"Content"])
             ->add('submit', SubmitType::class   , ['label'=>"Enregistrer"])
         ;
     }
@@ -22,7 +22,7 @@ class TagType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Tag::class,
+            'data_class' => Ticket::class,
         ]);
     }
 }
