@@ -58,10 +58,11 @@ class TicketController extends AbstractController
     #[Route('/{id<\d+>}/editer', name: 'app_ticket_edit')]
     public function edit(int $id, ManagerRegistry $doctrine, Request $request): Response
     {
+        $date = new \DateTime();
         $ticketRepository = $doctrine->getRepository(Ticket::class);
         $ticket = $ticketRepository->find($id);
         $form = $this->createForm(TicketType::class, $ticket);
-        
+        $ticket->setModifiedAt($date);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $em = $doctrine->getManager();
