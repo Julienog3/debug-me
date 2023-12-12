@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Ticket;
+use App\Entity\User;
 use App\Form\TicketType;
 
 #[Route("/ticket")]
@@ -35,15 +36,21 @@ class TicketController extends AbstractController
     #[Route('/ajouter', name: 'app_ticket_add')]
     public function add(ManagerRegistry $doctrine, Request $request): Response
     {
+        $author_id = 1 ;// Valeur à rendre dynamique en fonction de qui est connecté
+        $userRepository = $doctrine->getRepository(User::class);
+        
         $ticket = new Ticket();
         $form = $this->createForm(TicketType::class, $ticket);
+        $ticket->setAuthor($userRepository->find($author_id));
         $form->handleRequest($request);
+        
         if($form->isSubmitted() && $form->isValid()){
             $em = $doctrine->getManager();
 			$em->persist($ticket);
 			$em->flush();
             return $this->redirectToRoute('app_ticket');
         }
+        
         return $this->render('ticket/add.html.twig', [
             "form" => $form->createView(),
         ]);

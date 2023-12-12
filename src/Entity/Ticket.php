@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TicketRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Ticket
 {
     #[ORM\Id]
@@ -30,9 +31,9 @@ class Ticket
 
     #[ORM\ManyToOne(inversedBy: 'tickets')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?user $author = null;
+    private ?User $author = null;
 
-    #[ORM\ManyToMany(targetEntity: tag::class, inversedBy: 'tickets')]
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'tickets')]
     private Collection $tags;
 
     #[ORM\Column]
@@ -46,7 +47,16 @@ class Ticket
         $this->tags = new ArrayCollection();
         $this->comments = new ArrayCollection();
     }
-
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->created_at = new \DateTime();
+    }
+    #[ORM\PrePersist]
+    public function setDoneValue(): void
+    {
+        $this->done = false;
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -100,12 +110,12 @@ class Ticket
         return $this;
     }
 
-    public function getAuthor(): ?user
+    public function getAuthor(): ?User
     {
         return $this->author;
     }
 
-    public function setAuthor(?user $author): static
+    public function setAuthor(?User $author): static
     {
         $this->author = $author;
 

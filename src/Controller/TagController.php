@@ -26,7 +26,7 @@ class TagController extends AbstractController
     #[Route('/{id<\d+>}', name: 'app_tag_show')]
     public function show(int $id, ManagerRegistry $doctrine): Response
     {
-        $tagRepository = $doctrine->getRepository(tag::class);
+        $tagRepository = $doctrine->getRepository(Tag::class);
         dump($tagRepository->find($id));
         return $this->render('tag/tag.html.twig', [
             'controller_name' => 'TagController',
