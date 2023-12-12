@@ -18,7 +18,7 @@ class RankController extends AbstractController
     public function index(ManagerRegistry $doctrine): Response
     {
         $rankRepository = $doctrine->getRepository(Rank::class);
-        return $this->render('rank/rank.html.twig', [
+        return $this->render('rank/ranks.html.twig', [
             'controller_name' => 'rankController',
             'ranks' => $rankRepository->findAll(),
             'title' => "Les rangs"
@@ -28,9 +28,9 @@ class RankController extends AbstractController
     public function show(int $id, ManagerRegistry $doctrine): Response
     {
         $rankRepository = $doctrine->getRepository(Rank::class);
-        dump($rankRepository->find($id));
         return $this->render('rank/rank.html.twig', [
             'controller_name' => 'rankController',
+            'rank' => $rankRepository->find($id),
         ]);
     }
     #[Route('/ajouter', name: 'app_rank_add')]

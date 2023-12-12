@@ -10,12 +10,18 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Rang {{ rank.name }}! ✅</h1>
-    <div class="category">
-        <p>Rang id : {{ rank.id }} </p>
-        <p>Nom du rang : {{ rank.name }}</p>
-        <p>Logo : {{ rank.logo }}</p>
-        <p>Nombre de points requis :  {{ rank.requiredPoint }}</p>
-    </div>
+    <h1>Hello {{ title }}! ✅</h1>
+
+    This friendly message is coming from:
+    <ul>
+        {% for rank in ranks %}
+        <li class="category">
+            <p>Rang id : {{ rank.id }} </p>
+            <p>Nom du rang : {{ rank.name }}</p>
+            <p>Logo : {{ rank.logo }}</p>
+            <p>Nombre de points requis :  {{ rank.requiredPoint }}</p>
+        </li>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}
