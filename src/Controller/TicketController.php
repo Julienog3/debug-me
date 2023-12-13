@@ -19,9 +19,10 @@ class TicketController extends AbstractController
     public function index(ManagerRegistry $doctrine): Response
     {
         $ticketRepository = $doctrine->getRepository(Ticket::class);
-        dump($ticketRepository->findAll());
-        return $this->render('ticket/ticket.html.twig', [
+        return $this->render('ticket/tickets.html.twig', [
             'controller_name' => 'TicketController',
+            'tickets'=>$ticketRepository->findAll(),
+            'title'=>"Tous les tickets"
         ]);
     }
     #[Route('/{id<\d+>}', name: 'app_ticket_show')]
@@ -36,7 +37,11 @@ class TicketController extends AbstractController
     #[Route('/ajouter', name: 'app_ticket_add')]
     public function add(ManagerRegistry $doctrine, Request $request): Response
     {
-        $author_id = 1 ;// Valeur à rendre dynamique en fonction de qui est connecté
+        // User connecté
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+
+        $author_id = $user->getId() ;
         $userRepository = $doctrine->getRepository(User::class);
         
         $ticket = new Ticket();
@@ -58,9 +63,19 @@ class TicketController extends AbstractController
     #[Route('/{id<\d+>}/editer', name: 'app_ticket_edit')]
     public function edit(int $id, ManagerRegistry $doctrine, Request $request): Response
     {
+        // Test si connecté et si l'utilisateur possède le ticket
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+
         $date = new \DateTime();
         $ticketRepository = $doctrine->getRepository(Ticket::class);
         $ticket = $ticketRepository->find($id);
+        dump($ticket->getAuthor()->getId());
+
+        if($user->getId() !== $ticket->getAuthor()->getId()){
+            return $this->redirectToRoute('app_ticket');
+        }
+
         $form = $this->createForm(TicketType::class, $ticket);
         $ticket->setModifiedAt($date);
         $form->handleRequest($request);
@@ -68,7 +83,8 @@ class TicketController extends AbstractController
             $em = $doctrine->getManager();
 			$em->flush();
             return $this->redirectToRoute('app_ticket_show',[
-                'id'=>$id
+                'id'=>$id,
+                'title'=>"Modifier un ticket",
             ]);
         }
         return $this->render('ticket/add.html.twig', [
