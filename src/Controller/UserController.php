@@ -19,8 +19,10 @@ class UserController extends AbstractController
     {
         $userRepository = $doctrine->getRepository(User::class);
         dump($userRepository->findAll());
-        return $this->render('user/user.html.twig', [
+        return $this->render('user/users.html.twig', [
             'controller_name' => 'UserController',
+            'users'=>$userRepository->findAll(),
+            'title'=>"Tous les utilisateurs"
         ]);
     }
     #[Route('/{id<\d+>}', name: 'app_user_show')]
