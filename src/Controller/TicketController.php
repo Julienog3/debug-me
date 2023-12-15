@@ -10,6 +10,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Ticket;
 use App\Entity\User;
+use App\Entity\Tag;
 use App\Form\TicketType;
 
 #[Route("/ticket")]
