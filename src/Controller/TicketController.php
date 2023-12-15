@@ -29,9 +29,10 @@ class TicketController extends AbstractController
     public function show(int $id, ManagerRegistry $doctrine): Response
     {
         $ticketRepository = $doctrine->getRepository(Ticket::class);
-        dump($ticketRepository->find($id));
         return $this->render('ticket/ticket.html.twig', [
             'controller_name' => 'TicketController',
+            'ticket'=>$ticketRepository->find($id),
+            'title'=>"Le ticket"
         ]);
     }
     #[Route('/ajouter', name: 'app_ticket_add')]
