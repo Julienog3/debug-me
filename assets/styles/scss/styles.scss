@@ -1,0 +1,123 @@
+@import 'variables';
+@import 'reset';
+@import 'fonts';
+
+// importing core styling file
+@import "../fontawesome/scss/fontawesome.scss";
+
+// our project needs Solid + Brands
+@import "../fontawesome/scss/solid.scss";
+@import "../fontawesome/scss/brands.scss";
+
+body {
+  font-family: Poppins;
+  display: flex;
+  background-color: $light-gray;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  background-color: $white;
+  border-bottom: 1px $gray solid;
+  height: 3rem;
+  padding: 1rem;
+  gap: 1rem;
+
+  &__icon {
+    width: 3rem;
+  }
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: $white;
+  width: 20rem;
+  border-right: 1px solid $gray;
+
+  &-header {
+    display: flex;
+    gap: 1rem;
+    height: 3rem;
+    padding: 1rem;
+    border-bottom: 1px $gray solid;
+    align-items: center;
+    font-size: .9rem;
+
+    &__picture {
+      width: 3rem;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+  }
+
+  .nav {
+    &-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1.5rem;
+      color: $black;
+
+      &__item {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        font-size: .8rem;
+        font-weight: 500;
+        cursor: pointer;
+        padding: 1rem;
+
+        .icon {
+          font-size: 1rem;
+          color: $black;
+        }
+
+        &--active {
+          background-color: $black;
+          color: $white;
+          border-radius: 10px;
+
+          .icon {
+            color: $white;
+          }
+        }
+      }
+    }
+  }
+}
+
+.card {
+  background-color: $white;
+  border-radius: 15px;
+  border: 1px solid $gray;
+  padding: 1rem;
+
+  &__title {
+    font-weight: bold;
+    font-size: 3rem;
+    color: $black;
+    margin-bottom: 1rem;
+  }
+
+  &__subtitle {
+    font-size: .9rem;
+    color: $gray;
+  }
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.home {
+  padding: 1rem;
+
+  &__title {
+    color: $primary;
+  }
+}
