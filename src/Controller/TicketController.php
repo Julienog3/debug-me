@@ -40,6 +40,7 @@ class TicketController extends AbstractController
             ['ticket' => $ticket],
             ['created_at' => 'ASC']
         );
+        $form = null;
         if($user){
             $is_usefull = false;
             $nb_like = 0;
@@ -57,7 +58,7 @@ class TicketController extends AbstractController
                 $em = $doctrine->getManager();
                 $em->persist($comment);
                 $em->flush();
-                return $this->redirectToRoute('app_ticket');
+                return $this->redirectToRoute('app_ticket_show',['id' => $id]);
             }
         }
 
@@ -65,7 +66,7 @@ class TicketController extends AbstractController
             'controller_name' => 'TicketController',
             'ticket'=>$ticket,
             'title'=>"Le ticket",
-            "form" => $form->createView(),
+            "form" => $form ? $form->createView() : null,
             "comments"=>$comments
         ]);
     }

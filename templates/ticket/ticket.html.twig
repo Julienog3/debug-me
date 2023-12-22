@@ -33,12 +33,16 @@
             {% else %}
                 <p>Créé le :  {{ comment.createdAt|date('H:i:s d-m-Y') }}</p>
             {% endif %}
+            <p>Nombre de like : {{ comment.nb_like | default(0) }}</p>
         </li>
         {% endfor %}
     </ul>
     </div>
     <div>
-        {{form(form)}}
+        {% if form %}
+            {{ form(form) }}
+        {% endif %}
+        
     </div>
 </div>
 {% endblock %}
