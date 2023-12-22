@@ -11,16 +11,34 @@
 
 <div class="example-wrapper">
     <h1>{{ title }}! ✅</h1>
+    <div class="category">
+        <p>Ticket id : {{ ticket.id }} </p>
+        <p>Nom du ticket : {{ ticket.title }}</p>
+        <p>Auteur : {{ ticket.author.firstname }} {{ ticket.author.lastname }}</p>
+        <p>Contenu :  {{ ticket.content }}</p>
+        <p>Créé le :  {{ ticket.createdAt|date('Y-m-d H:i:s') }}</p>
+        <p>Modifier le  :  {{ ticket.modifiedAt|date('Y-m-d H:i:s') }}</p>
+        <p>Problème résolu : {{ticket.done ? "Oui": "Non"}}</p>
+    </div>
+    <div>
     <ul>
+        {% for comment in comments %}
         <li class="category">
-            <p>Ticket id : {{ ticket.id }} </p>
-            <p>Nom du ticket : {{ ticket.title }}</p>
-            <p>Auteur : {{ ticket.author.firstname }} {{ ticket.author.lastname }}</p>
-            <p>Contenu :  {{ ticket.content }}</p>
-            <p>Créé le :  {{ ticket.createdAt|date('Y-m-d H:i:s') }}</p>
-            <p>Modifier le  :  {{ ticket.modifiedAt|date('Y-m-d H:i:s') }}</p>
-            <p>Problème résolu : {{ticket.done ? "Oui": "Non"}}</p>
+            <p>Commentaire id : {{ comment.id }} </p>
+            <p>Nom de l'auteur du commentaire: {{ comment.author.firstname }} {{ comment.author.lastname }}</p>
+            </p>
+            <p>Contenu :  {{ comment.content }}</p>
+            {% if comment.modifiedAt  %}
+                <p>Modifier le  :  {{ comment.modifiedAt|date('H:i:s d-m-Y') }}</p>
+            {% else %}
+                <p>Créé le :  {{ comment.createdAt|date('H:i:s d-m-Y') }}</p>
+            {% endif %}
         </li>
+        {% endfor %}
     </ul>
+    </div>
+    <div>
+        {{form(form)}}
+    </div>
 </div>
 {% endblock %}
