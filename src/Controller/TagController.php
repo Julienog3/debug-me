@@ -18,18 +18,19 @@ class TagController extends AbstractController
     public function index(ManagerRegistry $doctrine): Response
     {
         $tagRepository = $doctrine->getRepository(Tag::class);
-        dump($tagRepository->findAll());
-        return $this->render('tag/tag.html.twig', [
+        return $this->render('tag/tags.html.twig', [
             'controller_name' => 'TagController',
+            'tags'=>$tagRepository->findAll(),
+            'title'=>"Tous les Tags"
         ]);
     }
     #[Route('/{id<\d+>}', name: 'app_tag_show')]
     public function show(int $id, ManagerRegistry $doctrine): Response
     {
         $tagRepository = $doctrine->getRepository(Tag::class);
-        dump($tagRepository->find($id));
         return $this->render('tag/tag.html.twig', [
             'controller_name' => 'TagController',
+            "tag"=>$tagRepository->find($id),
         ]);
     }
     #[Route('/ajouter', name: 'app_tag_add')]
