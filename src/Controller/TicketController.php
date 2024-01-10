@@ -40,6 +40,8 @@ class TicketController extends AbstractController
             ['ticket' => $ticket],
             ['created_at' => 'ASC']
         );
+        
+        // Ajout de commentaire à la fin du ticket
         $form = null;
         if($user){
             $is_usefull = false;
@@ -137,6 +139,8 @@ class TicketController extends AbstractController
         $em->flush();
         return $this->redirectToRoute('app_ticket');
     }
+
     
 
 }
+

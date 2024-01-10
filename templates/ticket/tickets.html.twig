@@ -25,6 +25,7 @@
             <p>Créé le :  {{ ticket.createdAt|date('Y-m-d H:i:s') }}</p>
             <p>Modifier le  :  {{ ticket.modifiedAt|date('Y-m-d H:i:s') }}</p>
             <p>Problème résolu : {{ticket.done ? "Oui": "Non"}}</p>
+            <a href="{{ path('app_ticket_show', {id:ticket.id})}}">Voir le ticket</a>
         </li>
         {% endfor %}
     </ul>
