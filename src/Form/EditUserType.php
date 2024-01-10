@@ -20,7 +20,12 @@ class EditUserType extends AbstractType
             ->add('email', null, ['label'=>"Adresse email"])
             ->add('firstname', null, ['label'=>"Prénom"])
             ->add('lastname', null, ['label'=>"Nom"])
-            ->add('icon', null, ['label'=>"Icone"])
+            ->add('icon', FileType::class, [
+                'label' => 'Icone',
+                'mapped' => false, // Le champ n'est pas mappé sur une propriété de l'entité
+                'required' => false, // Le champ n'est pas obligatoire
+
+            ])
             ->add('submit', SubmitType::class   , ['label'=>"Enregistrer"])
         ;
     }
