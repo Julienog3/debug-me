@@ -8,9 +8,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Comment;
 use App\Entity\Ticket;
 use App\Entity\User;
+use App\Entity\Tag;
+use App\Entity\Like;
 use App\Form\TicketType;
+use App\Form\CommentType;
 
 #[Route("/ticket")]
 class TicketController extends AbstractController
@@ -26,13 +30,55 @@ class TicketController extends AbstractController
         ]);
     }
     #[Route('/{id<\d+>}', name: 'app_ticket_show')]
-    public function show(int $id, ManagerRegistry $doctrine): Response
+    public function show(int $id, ManagerRegistry $doctrine, Request $request): Response
     {
         $ticketRepository = $doctrine->getRepository(Ticket::class);
+        $userRepository = $doctrine->getRepository(User::class); 
+        $commentRepository = $doctrine->getRepository(Comment::class); 
+        $likeRepository = $doctrine->getRepository(Like::class); 
+
+        $user = $this->getUser();
+        $ticket = $ticketRepository->find($id);
+        $comments = $commentRepository->findBy(
+            ['ticket' => $ticket],
+            ['created_at' => 'ASC']
+        );
+        
+        foreach ($comments as $e){
+            $likes = $e->getLikes();
+            foreach($likes as $like){
+                dump($like->getUser());
+            }
+        }
+        
+        // Ajout de commentaire à la fin du ticket
+        $form = null;
+        if($user){
+            $is_usefull = false;
+            $author_id = $user->getId() ;
+            $comment = new Comment();
+            $comment
+                ->setAuthor($userRepository->find($author_id))
+                ->setTicket($ticket)
+                ->setIsUsefull($is_usefull)
+            ;
+            $form = $this->createForm(CommentType::class, $comment);
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid()){
+                $em = $doctrine->getManager();
+                $em->persist($comment);
+                $em->flush();
+                return $this->redirectToRoute('app_ticket_show',['id' => $id]);
+            }
+        }
+
         return $this->render('ticket/ticket.html.twig', [
             'controller_name' => 'TicketController',
-            'ticket'=>$ticketRepository->find($id),
-            'title'=>"Le ticket"
+            'ticket'=>$ticket,
+            'title'=>"Le ticket",
+            "form" => $form ? $form->createView() : null,
+            "comments"=>$comments,
+            "user" => $user
         ]);
     }
     #[Route('/ajouter', name: 'app_ticket_add')]
@@ -102,6 +148,8 @@ class TicketController extends AbstractController
         $em->flush();
         return $this->redirectToRoute('app_ticket');
     }
+
     
 
 }
+

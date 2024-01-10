@@ -37,7 +37,7 @@ class RankController extends AbstractController
     public function add(ManagerRegistry $doctrine, Request $request): Response
     {
         $rank = new Rank();
-        $form = $this->createForm(rankType::class, $rank);
+        $form = $this->createForm(RankType::class, $rank);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $em = $doctrine->getManager();

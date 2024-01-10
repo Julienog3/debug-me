@@ -6,15 +6,16 @@
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    .category {margin : 2em 0 2em 0; border-bottom:2px solid black}
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
+    <h1>{{ tag.name }}! ✅</h1>
     <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/Léonard/Desktop/Master/symfony/debug-me/src/Controller/TagController.php'|file_link(0) }}">src/Controller/TagController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/Léonard/Desktop/Master/symfony/debug-me/templates/tag/index.html.twig'|file_link(0) }}">templates/tag/index.html.twig</a></code></li>
+        <li class="category">
+            <p>Tag id : {{ tag.id }} </p>
+            <p>Nom du tag : {{ tag.name }}</p>
+        </li>
     </ul>
 </div>
 {% endblock %}

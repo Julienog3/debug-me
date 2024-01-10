@@ -18,9 +18,14 @@
             <p>Nom du ticket : {{ ticket.title }}</p>
             <p>Auteur : {{ ticket.author.firstname }} {{ ticket.author.lastname }}</p>
             <p>Contenu :  {{ ticket.content }}</p>
+            <p>Tags :  {% for tag in ticket.tags %}
+                <p>{{tag.name}}</p>
+                {% endfor %}
+            </p>
             <p>Créé le :  {{ ticket.createdAt|date('Y-m-d H:i:s') }}</p>
             <p>Modifier le  :  {{ ticket.modifiedAt|date('Y-m-d H:i:s') }}</p>
             <p>Problème résolu : {{ticket.done ? "Oui": "Non"}}</p>
+            <a href="{{ path('app_ticket_show', {id:ticket.id})}}">Voir le ticket</a>
         </li>
         {% endfor %}
     </ul>
