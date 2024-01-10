@@ -13,10 +13,9 @@ class TagType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', null, ['label'=>"Nom"])
-            ->add('color', null, ['label'=>"Couleur"])
-            ->add('submit', SubmitType::class   , ['label'=>"Enregistrer"])
-        ;
+            ->add('name', null, ['label' => "Nom"])
+            ->add('color', null, ['label' => "Couleur"])
+            ->add('submit', SubmitType::class, ['label' => "Enregistrer"]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

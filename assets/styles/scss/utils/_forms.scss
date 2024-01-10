@@ -1,0 +1,35 @@
+.form {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  flex-wrap: wrap;
+  width: 20rem;
+
+  &-group {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    width: 100%;
+
+    &--split {
+      width: calc(50% - .5rem);
+    }
+  }
+
+  &__input {
+    font-family: Poppins;
+    border: solid 1px $gray;
+    padding: .5rem 1rem;
+    border-radius: 8px;
+  }
+
+  &__label {
+    font-weight: 500;
+    font-size: .85rem;
+  }
+
+  &__info {
+    font-size: .8rem;
+    color: $gray;
+  }
+}

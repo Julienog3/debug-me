@@ -1,27 +1,46 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/layout_authenticated.html.twig' %}
 
-{% block title %}Hello RankController!{% endblock %}
+{% block title %}Hello RankController!
+{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    .category {margin : 2em 0 2em 0; border-bottom:2px solid black}
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ title }}! ✅</h1>
+{% block content %}
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+		.category {
+			margin: 2em 0;
+			border-bottom: 2px solid black
+		}
+	</style>
 
-    This friendly message is coming from:
-    <ul>
-        {% for rank in ranks %}
-        <li class="category">
-            <p>Rang id : {{ rank.id }} </p>
-            <p>Nom du rang : {{ rank.name }}</p>
-            <p>Logo : {{ rank.logo }}</p>
-            <p>Nombre de points requis :  {{ rank.requiredPoint }}</p>
-        </li>
-        {% endfor %}
-    </ul>
-</div>
+	<div class="example-wrapper">
+		<h1>Hello
+			{{ title }}! ✅</h1>
+
+		This friendly message is coming from:
+		<ul>
+			{% for rank in ranks %}
+				<li class="category">
+					<p>Rang id :
+						{{ rank.id }}
+					</p>
+					<p>Nom du rang :
+						{{ rank.name }}</p>
+					<p>Logo :
+						{{ rank.logo }}</p>
+					<p>Nombre de points requis :
+						{{ rank.requiredPoint }}</p>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
 {% endblock %}

@@ -1,0 +1,250 @@
+@import 'variables';
+@import 'reset';
+@import 'fonts';
+@import 'utils/forms';
+
+@import "../fontawesome/scss/fontawesome.scss";
+@import "../fontawesome/scss/solid.scss";
+@import "../fontawesome/scss/brands.scss";
+
+@import "pages/register";
+@import "pages/login";
+
+body {
+  font-family: Poppins;
+  display: flex;
+  background-color: $light-gray;
+}
+
+a {
+  text-decoration: none;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  background-color: $white;
+  border-bottom: 1px $gray solid;
+  height: 3rem;
+  padding: 1rem;
+  gap: 1rem;
+
+  &__icon {
+    width: 3rem;
+  }
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: $white;
+  width: 20rem;
+  border-right: 1px solid $gray;
+
+  &-header {
+    display: flex;
+    gap: 1rem;
+    height: 3rem;
+    padding: 1rem;
+    border-bottom: 1px $gray solid;
+    align-items: center;
+    font-size: .9rem;
+
+    &__picture {
+      width: 3rem;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+  }
+
+  .nav {
+    &-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1.5rem;
+      color: $black;
+
+      &__item {
+        font-size: .8rem;
+        font-weight: 500;
+        cursor: pointer;
+        padding: 1rem;
+
+        a {
+          display: flex;
+          gap: 1rem;
+          align-items: center;
+          color: $black;
+        }
+
+        .icon {
+          font-size: 1rem;
+          color: $black;
+        }
+
+        &--active {
+          background-color: $black;
+          border-radius: 10px;
+
+          a {
+            color: $white;
+          }
+
+          .icon {
+            color: $white;
+          }
+        }
+      }
+    }
+  }
+}
+
+.card {
+  background-color: $white;
+  border-radius: 15px;
+  border: 1px solid $gray;
+  padding: 1rem;
+
+  &__title {
+    font-weight: bold;
+    font-size: 3rem;
+    color: $black;
+    margin-bottom: 1rem;
+  }
+
+  &__subtitle {
+    font-size: .9rem;
+    color: $gray;
+  }
+}
+
+
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+
+  &__title {
+    color: $primary;
+  }
+}
+
+.ticket-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-bottom: 1px solid $gray;
+
+    &__title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: $black;
+    }
+
+    &__link {
+      display: flex;
+      color: $black;
+      text-transform: uppercase;
+      font-size: .8rem;
+      font-weight: 600;
+      text-decoration: none;
+      gap: .5rem;
+      align-items: center;
+    }
+  }
+
+  &-body {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    height: 40vh;
+
+    .ticket-list-item:not(:last-child) {
+      border-bottom: 1px solid $gray;
+    }
+  }
+
+  &-item {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 0;
+
+    &__title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: $black;
+    }
+
+    &__description {
+      color: $gray;
+      font-size: .9rem;
+    }
+
+    &__list {
+      display: flex;
+      gap: .5rem;
+    }
+  }
+}
+
+.chip {
+  border: 1px solid $gray;
+  border-radius: 999px;
+  padding: .5rem;
+  color: $black;
+  font-size: .9rem;
+  width: fit-content;
+  font-weight: 600;
+}
+
+.add-ticket-page {
+  display: flex;
+  min-height: 90vh;
+  align-items: center;
+  max-width: 1440px;
+  margin: 0 auto;
+
+  .card {
+    width: 40rem;
+    padding: 1.5rem;
+
+    &__title {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .button {
+    margin-top: 1.5rem;
+    background-color: $primary;
+    font-family: Poppins;
+    border: none;
+    border-radius: 8px;
+    padding: .5rem 1rem;
+    color: $white;
+    cursor: pointer;
+    align-self: end;
+  }
+}

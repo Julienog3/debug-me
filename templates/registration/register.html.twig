@@ -1,21 +1,45 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/layout_default.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription
+{% endblock %}
 
-{% block body %}
-    <h1>Register</h1>
+{% block content %}
+	<div class="register-page">
+		<div class="icon">
+			<img class="icon__img" src="{{ asset('images/icon.png') }}" alt="Debug.me icon"/>
+			<h1 class="icon__title">Debug.me</h1>
+		</div>
+		<div class="card">
+			<h1 class="card__title">Créer un compte</h1>
+			{{ form_errors(registrationForm) }}
+			{{ form_start(registrationForm) }}
+			<div class="form">
+				<div class="form-group form-group--split">
+					<label class="form__label">Prénom</label>
+					<input name="{{ field_name(registrationForm.firstname) }}" value="{{ field_value(registrationForm.firstname) }}" placeholder="Thibaut" class="form__input">
+				</div>
+				<div class="form-group form-group--split">
+					<label class="form__label">Nom</label>
+					<input name="{{ field_name(registrationForm.lastname) }}" value="{{ field_value(registrationForm.lastname) }}" placeholder="Darros" class="form__input">
+				</div>
+				<div class="form-group">
+					<label class="form__label">Email</label>
+					<input name="{{ field_name(registrationForm.email) }}" value="{{ field_value(registrationForm.email) }}" placeholder="tdarros@mail.com" class="form__input">
+				</div>
 
-    {{ form_errors(registrationForm) }}
+				<div class="form-group">
+					<label class="form__label">Mot de passe</label>
+					<input type="password" name="{{ field_name(registrationForm.plainPassword) }}" value="{{ field_value(registrationForm.plainPassword) }}" placeholder="{{ field_label(registrationForm.plainPassword) }}" class="form__input">
+					<p class="form__info">Doit contenir au moins 8 caractères</p>
+				</div>
+				{{ form_row(registrationForm.agreeTerms) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.lastname) }}
-        {{ form_row(registrationForm.firstname) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+				<button type="submit" class="button">Créer le compte</button>
+			</div>
+			{{ form_end(registrationForm) }}
+		</div>
+		<p class="link">Vous avez déjà un compte ?
+			<a href="{{ path('app_login') }}">Connecte toi</a>
+		</p>
+	</div>
 {% endblock %}

@@ -1,0 +1,54 @@
+// @import 'variables';
+
+.register-page {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+
+  .icon {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    &__img {
+      width: 3rem;
+    }
+
+    &__title {
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+  }
+
+  .card {
+    padding: 1.5rem;
+
+    &__title {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  .button {
+    background-color: $primary;
+    font-family: Poppins;
+    border: none;
+    border-radius: 8px;
+    padding: .5rem;
+    color: $white;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .link {
+    font-size: .85rem;
+
+    a {
+      color: $primary;
+    }
+  }
+}
