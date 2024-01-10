@@ -1,13 +1,77 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/layout_authenticated.html.twig' %}
 
 {% block title %}Hello HomeController!
 {% endblock %}
 
-{% block body %}
+{% block content %}
 	<main class="home">
 		<article class="card">
 			<h1 class="card__title">Bonjour John Doe</h1>
 			<p class="card__subtitle">On est ravi de vous revoir</p>
 		</article>
-	</main>
-{% endblock %}
+		<article class="card">
+			<div class="ticket-list">
+				<div class="ticket-list-header">
+					<h3 class="ticket-list-header__title">Tickets récents</h3>
+					<a href="#">
+						<span class="ticket-list-header__link">voir tout
+							<i class="fa-solid fa-arrow-right"></i>
+						</span>
+					</a>
+				</div>
+				<ul class="ticket-list-body">
+					<li class="ticket-list-item">
+						<h4 class="ticket-list-item__title">Comment faire un CRUD</h4>
+						<p class="ticket-list-item__description">Sed leo lacus, imperdiet bibendum porta id, placerat quis ex. In vitae ante a nisl sodales viverra.</p>
+						<ul class="ticket-list-item__list">
+							<li class="chip">PHP</li>
+							<li class="chip">Back-end</li>
+							<li class="chip">SQL</li>
+							<li class="chip">Database</li>
+						</ul>
+					</li>
+					<li class="ticket-list-item">
+						<h4 class="ticket-list-item__title">Comment faire un CRUD</h4>
+						<p class="ticket-list-item__description">Sed leo lacus, imperdiet bibendum porta id, placerat quis ex. In vitae ante a nisl sodales viverra.</p>
+						<ul class="ticket-list-item__list">
+							<li class="chip">PHP</li>
+							<li class="chip">Back-end</li>
+							<li class="chip">SQL</li>
+							<li class="chip">Database</li>
+						</ul>
+					</li>
+					<li class="ticket-list-item">
+						<h4 class="ticket-list-item__title">Comment faire un CRUD</h4>
+						<p class="ticket-list-item__description">Sed leo lacus, imperdiet bibendum porta id, placerat quis ex. In vitae ante a nisl sodales viverra.</p>
+						<ul class="ticket-list-item__list">
+							<li class="chip">PHP</li>
+							<li class="chip">Back-end</li>
+							<li class="chip">SQL</li>
+							<li class="chip">Database</li>
+						</ul>
+					</li>
+					<li class="ticket-list-item">
+						<h4 class="ticket-list-item__title">Comment faire un CRUD</h4>
+						<p class="ticket-list-item__description">Sed leo lacus, imperdiet bibendum porta id, placerat quis ex. In vitae ante a nisl sodales viverra.</p>
+						<ul class="ticket-list-item__list">
+							<li class="chip">PHP</li>
+							<li class="chip">Back-end</li>
+							<li class="chip">SQL</li>
+							<li class="chip">Database</li>
+						</ul>
+					</li>
+					<li class="ticket-list-item">
+						<h4 class="ticket-list-item__title">Comment faire un CRUD</h4>
+						<p class="ticket-list-item__description">Sed leo lacus, imperdiet bibendum porta id, placerat quis ex. In vitae ante a nisl sodales viverra.</p>
+						<ul class="ticket-list-item__list">
+							<li class="chip">PHP</li>
+							<li class="chip">Back-end</li>
+							<li class="chip">SQL</li>
+							<li class="chip">Database</li>
+						</ul>
+					</li>
+				</p>
+			</li>
+		</ul>
+	</div>
+</article></main>{% endblock %}

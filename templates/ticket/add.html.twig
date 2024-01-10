@@ -1,8 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/layout_authenticated.html.twig' %}
 
-{% block title %}Ajout Ticket {% endblock %}
-
-{% block body %}
-    <h1>Ajout Ticket </h1>
-    {{form(form)}}
+{% block title %}Ajout Ticket
 {% endblock %}
+
+{% block content %}
+	<h1>Ajout Ticket
+	</h1>
+	{{form(form)}}{% endblock %}
