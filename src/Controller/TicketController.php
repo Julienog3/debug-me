@@ -12,6 +12,7 @@ use App\Entity\Comment;
 use App\Entity\Ticket;
 use App\Entity\User;
 use App\Entity\Tag;
+use App\Entity\Like;
 use App\Form\TicketType;
 use App\Form\CommentType;
 
@@ -34,12 +35,21 @@ class TicketController extends AbstractController
         $ticketRepository = $doctrine->getRepository(Ticket::class);
         $userRepository = $doctrine->getRepository(User::class); 
         $commentRepository = $doctrine->getRepository(Comment::class); 
+        $likeRepository = $doctrine->getRepository(Like::class); 
+
         $user = $this->getUser();
         $ticket = $ticketRepository->find($id);
         $comments = $commentRepository->findBy(
             ['ticket' => $ticket],
             ['created_at' => 'ASC']
         );
+        
+        foreach ($comments as $e){
+            $likes = $e->getLikes();
+            foreach($likes as $like){
+                dump($like->getUser());
+            }
+        }
         
         // Ajout de commentaire à la fin du ticket
         $form = null;
@@ -67,7 +77,8 @@ class TicketController extends AbstractController
             'ticket'=>$ticket,
             'title'=>"Le ticket",
             "form" => $form ? $form->createView() : null,
-            "comments"=>$comments
+            "comments"=>$comments,
+            "user" => $user
         ]);
     }
     #[Route('/ajouter', name: 'app_ticket_add')]
