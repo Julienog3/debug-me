@@ -40,7 +40,6 @@ class CommentController extends AbstractController
         $author_id = 1 ; // Valeur à rendre dynamique en fonction de qui est connecté
         $ticket_id = 2 ; // Valeur à rendre dynamique en fonction de qui est connecté
         $is_usefull = false;
-        $nb_like = 0;
 
         $userRepository = $doctrine->getRepository(User::class);        
         $ticketRepository = $doctrine->getRepository(Ticket::class);
@@ -50,7 +49,6 @@ class CommentController extends AbstractController
             ->setAuthor($userRepository->find($author_id))
             ->setTicket($ticketRepository->find($ticket_id))
             ->setIsUsefull($is_usefull)
-            ->setIsUsefull($nb_like)
         ;
 
         

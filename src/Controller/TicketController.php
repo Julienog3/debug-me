@@ -45,14 +45,12 @@ class TicketController extends AbstractController
         $form = null;
         if($user){
             $is_usefull = false;
-            $nb_like = 0;
             $author_id = $user->getId() ;
             $comment = new Comment();
             $comment
                 ->setAuthor($userRepository->find($author_id))
                 ->setTicket($ticket)
                 ->setIsUsefull($is_usefull)
-                ->setIsUsefull($nb_like)
             ;
             $form = $this->createForm(CommentType::class, $comment);
             $form->handleRequest($request);

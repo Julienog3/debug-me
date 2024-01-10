@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CommentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -34,8 +36,13 @@ class Comment
     #[ORM\Column]
     private ?bool $isUsefull = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $nb_like = null;
+    #[ORM\OneToMany(mappedBy: 'comment', targetEntity: Like::class)]
+    private Collection $likes;
+
+    public function __construct()
+    {
+        $this->likes = new ArrayCollection();
+    }
 
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
@@ -119,14 +126,32 @@ class Comment
         return $this;
     }
 
-    public function getNbLike(): ?int
+    /**
+     * @return Collection<int, Like>
+     */
+    public function getLikes(): Collection
     {
-        return $this->nb_like;
+        return $this->likes;
     }
 
-    public function setNbLike(?int $nb_like): static
+    public function addLike(Like $like): static
     {
-        $this->nb_like = $nb_like;
+        if (!$this->likes->contains($like)) {
+            $this->likes->add($like);
+            $like->setComment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(Like $like): static
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getComment() === $this) {
+                $like->setComment(null);
+            }
+        }
 
         return $this;
     }
