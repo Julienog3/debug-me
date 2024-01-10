@@ -18,14 +18,14 @@ class TicketType extends AbstractType
     {
         $builder
             ->add('title', null, [
-                'label'=>"Titre"
-                ])
+                'label' => "Titre"
+            ])
             ->add('content', null, [
-                'label'=>"Content"
+                'label' => "Content"
 
-                ])
+            ])
             ->add('tags', EntityType::class, [
-                'label'=>"Tag",
+                'label' => "Tag",
                 'class'     => Tag::class,
                 'expanded'  => true,
                 'multiple'  => true,
@@ -35,9 +35,8 @@ class TicketType extends AbstractType
                     return $er->createQueryBuilder('t')
                         ->orderBy('t.name', 'ASC');
                 }
-                ])
-            ->add('submit', SubmitType::class   , ['label'=>"Enregistrer"])
-        ;
+            ])
+            ->add('submit', SubmitType::class, ['label' => "Ajouter le ticket"]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

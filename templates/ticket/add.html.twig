@@ -4,6 +4,23 @@
 {% endblock %}
 
 {% block content %}
-	<h1>Ajout Ticket
-	</h1>
-	{{form(form)}}{% endblock %}
+	<div class="add-ticket-page">
+		<div class="card">
+			<h1 class="card__title">Ajout Ticket
+			</h1>
+			{{ form_start(form, { 'attr' : { 'class': 'form' } }) }}
+
+			<div class="form-group">
+				<label class="form__label">Question</label>
+				<input name="{{ field_name(form.title) }}" value="{{ field_value(form.title) }}" placeholder="Intitulé de la question" class="form__input">
+			</div>
+			<div class="form-group">
+				<label class="form__label">Description</label>
+				<textarea rows="6" name="{{ field_name(form.content) }}" value="{{ field_value(form.content) }}" placeholder="Description de la question" class="form__input"></textarea>
+
+
+				{{ form_widget(form.submit, {'attr': {'class': 'button' }}) }}
+				{{ form_end(form) }}
+			</div>
+		</div>
+	{% endblock %}

@@ -212,3 +212,39 @@ a {
   width: fit-content;
   font-weight: 600;
 }
+
+.add-ticket-page {
+  display: flex;
+  min-height: 90vh;
+  align-items: center;
+  max-width: 1440px;
+  margin: 0 auto;
+
+  .card {
+    width: 40rem;
+    padding: 1.5rem;
+
+    &__title {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .button {
+    margin-top: 1.5rem;
+    background-color: $primary;
+    font-family: Poppins;
+    border: none;
+    border-radius: 8px;
+    padding: .5rem 1rem;
+    color: $white;
+    cursor: pointer;
+    align-self: end;
+  }
+}
