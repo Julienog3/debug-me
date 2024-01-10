@@ -1,13 +1,14 @@
 @import 'variables';
 @import 'reset';
 @import 'fonts';
+@import 'utils/forms';
 
-// importing core styling file
 @import "../fontawesome/scss/fontawesome.scss";
-
-// our project needs Solid + Brands
 @import "../fontawesome/scss/solid.scss";
 @import "../fontawesome/scss/brands.scss";
+
+@import "pages/register";
+@import "pages/login";
 
 body {
   font-family: Poppins;
@@ -172,7 +173,7 @@ a {
     flex-direction: column;
     overflow-y: scroll;
     height: 40vh;
-    
+
     .ticket-list-item:not(:last-child) {
       border-bottom: 1px solid $gray;
     }
@@ -187,9 +188,9 @@ a {
     &__title {
       font-size: 1.1rem;
       font-weight: bold;
-      color: $black; 
+      color: $black;
     }
-    
+
     &__description {
       color: $gray;
       font-size: .9rem;
