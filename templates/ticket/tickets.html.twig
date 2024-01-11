@@ -1,33 +1,64 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/layout_authenticated.html.twig' %}
 
-{% block title %}Hello TicketController!{% endblock %}
+{% block title %}Tous les tickets - Debug.me
+{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    .category {margin : 2em 0 2em 0; border-bottom:2px solid black}
-</style>
-
-<div class="example-wrapper">
-    <h1>{{ title }}! ✅</h1>
-    <ul>
-        {% for ticket in tickets %}
-        <li class="category">
-            <p>Ticket id : {{ ticket.id }} </p>
-            <p>Nom du ticket : {{ ticket.title }}</p>
-            <p>Auteur : {{ ticket.author.firstname }} {{ ticket.author.lastname }}</p>
-            <p>Contenu :  {{ ticket.content }}</p>
-            <p>Tags :  {% for tag in ticket.tags %}
-                <p>{{tag.name}}</p>
-                {% endfor %}
-            </p>
-            <p>Créé le :  {{ ticket.createdAt|date('Y-m-d H:i:s') }}</p>
-            <p>Modifier le  :  {{ ticket.modifiedAt|date('Y-m-d H:i:s') }}</p>
-            <p>Problème résolu : {{ticket.done ? "Oui": "Non"}}</p>
-            <a href="{{ path('app_ticket_show', {id:ticket.id})}}">Voir le ticket</a>
-        </li>
-        {% endfor %}
-    </ul>
-</div>
+{% block content %}
+	<div class="tickets-list-page">
+		<div class="card">
+			<div class="card-header">
+				<h2 class="card__title">Tous les tickets</h2>
+			</div>
+			<ul class="tickets-list">
+				{% for ticket in tickets %}
+					<li class="tickets-list__item">
+						<a href="{{ path('app_ticket_show', {id:ticket.id})}}">
+							<article class="ticket">
+								<div class="ticket-content">
+									<div class="ticket-header">
+										<h3 class="ticket__title">{{ ticket.title }}</h3>
+										{% if ticket.isDone %}
+											<span class="ticket__status ticket__status--done">
+												<i class="fa-solid fa-check"></i>
+											</span>
+										{% else %}
+											<span class="ticket__status ticket__status--undone">
+												<i class="fa-solid fa-question"></i>
+											</span>
+										{% endif %}
+									</div>
+									{% if ticket.tags | length %}
+										<ul class="ticket-list-item__list">
+											{% for tag in ticket.tags %}
+												<li class="chip">{{tag.name}}</li>
+											{% endfor %}
+										</ul>
+									{% endif %}
+									<p class="ticket-list-item__description">{{ ticket.content | truncate }}</p>
+									<div class="ticket-footer">
+										<div class="ticket-answers">
+											<i class="fa-solid fa-comment"></i>
+											{{ ticket.comments | length }}
+											Réponse
+										</div>
+										<div class="ticket-profile">
+											<img class="ticket-profile__picture" src="{{ asset('/images/profile-picture.png')}}"/>
+											{{ ticket.author.firstname }}
+											{{ ticket.author.lastname }}
+										</div>
+									</div>
+								</div>
+							</article>
+							{# <p>Créé le :
+							{{ ticket.createdAt|date('Y-m-d H:i:s') }}</p>
+						<p>Modifier le  :
+							{{ ticket.modifiedAt|date('Y-m-d H:i:s') }}</p>
+						<p>Problème résolu :
+							{{ticket.done ? "Oui": "Non"}}</p> #}
+						</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
 {% endblock %}
