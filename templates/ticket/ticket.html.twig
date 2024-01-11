@@ -42,6 +42,14 @@
                                 {{ ticket.author.lastname }}
                             </div>
                             <p class="ticket-comment__content">{{ comment.content }}</p>
+                            <a href="{{ path('app_comment_like', {'id': comment.id}) }}" class="btn btn-link js-like">
+                                <span class="js-likes">{{ comment.likes | length }}</span>
+                                {% if app.user and comment.likedByUser(app.user) %}
+                                    <i class="fas fa-thumbs-up"></i>
+                                {% else %}
+                                    <i class="far fa-thumbs-up"></i>
+                                {% endif %}
+                            </a>
                         </article>
                     </li>
                 {% endfor %}
@@ -104,5 +112,35 @@
         </div>
         {% endif %}
     </div>
-</main>
+</div>
+
+<script>
+    const LIKE_ICON = 'far fa-thumbs-up';
+    const UNLIKE_ICON = 'fas fa-thumbs-up';
+
+    Array.from(document.querySelectorAll('a.js-like')).forEach(function (link) {
+        link.addEventListener('click', onClickLink);
+    });
+
+    async function onClickLink(event) {
+        event.preventDefault();
+        const url = this.href;
+        const icone = this.querySelector('i');
+        const count = this.querySelector('span.js-likes');
+
+        try {
+            const result = await axios.post(url);
+            const data = result.data;
+            icone.className = icone.className === LIKE_ICON ? UNLIKE_ICON : LIKE_ICON;
+            count.textContent = data.likes;
+        } catch (error) {
+            console.error(error)
+
+            if (error.response.status === 403) {
+                window.location = '/login'
+            }
+        }
+    }
+</script>
 {% endblock %}
+

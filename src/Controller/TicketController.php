@@ -16,6 +16,7 @@ use App\Entity\Like;
 use App\Form\TicketType;
 use App\Form\CommentType;
 use App\Repository\TicketRepository;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 #[Route("/ticket")]
 class TicketController extends AbstractController
@@ -69,8 +70,6 @@ class TicketController extends AbstractController
                 return $this->redirectToRoute('app_ticket_show', ['id' => $id]);
             }
         }
-
-        
 
         return $this->render('ticket/ticket.html.twig', [
             'ticket' => $ticket,
@@ -145,11 +144,8 @@ class TicketController extends AbstractController
         return $this->redirectToRoute('app_ticket');
     }
 
-    /**
-     * @Route("/mark-ticket-done/{ticketId}", name="mark_ticket_done")
-     */
     #[Route('/{id<\d+>}/mark-as-done', name: 'app_ticket_done')]
-    public function markTicketAsDone(int $id, TicketRepository $ticketRepository, EntityManagerInterface $em)
+    public function markTicketAsDone(int $id, TicketRepository $ticketRepository, EntityManagerInterface $em): RedirectResponse
     {
         $ticket = $ticketRepository->find($id);
 

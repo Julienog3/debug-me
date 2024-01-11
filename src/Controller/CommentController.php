@@ -9,9 +9,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Comment;
+use App\Entity\Like;
 use App\Entity\Ticket;
 use App\Entity\User;
 use App\Form\CommentType;
+use App\Repository\CommentRepository;
+use App\Repository\LikeRepository;
+use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 #[Route("/comment")]
 class CommentController extends AbstractController
@@ -37,27 +42,26 @@ class CommentController extends AbstractController
     #[Route('/ajouter', name: 'app_comment_add')]
     public function add(ManagerRegistry $doctrine, Request $request): Response
     {
-        $author_id = 1 ; // Valeur à rendre dynamique en fonction de qui est connecté
-        $ticket_id = 2 ; // Valeur à rendre dynamique en fonction de qui est connecté
+        $author_id = 1; // Valeur à rendre dynamique en fonction de qui est connecté
+        $ticket_id = 2; // Valeur à rendre dynamique en fonction de qui est connecté
         $is_usefull = false;
 
-        $userRepository = $doctrine->getRepository(User::class);        
+        $userRepository = $doctrine->getRepository(User::class);
         $ticketRepository = $doctrine->getRepository(Ticket::class);
 
         $comment = new Comment();
         $comment
             ->setAuthor($userRepository->find($author_id))
             ->setTicket($ticketRepository->find($ticket_id))
-            ->setIsUsefull($is_usefull)
-        ;
+            ->setIsUsefull($is_usefull);
 
-        
+
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $doctrine->getManager();
-			$em->persist($comment);
-			$em->flush();
+            $em->persist($comment);
+            $em->flush();
             return $this->redirectToRoute('app_comment');
         }
         return $this->render('comment/add.html.twig', [
@@ -72,14 +76,14 @@ class CommentController extends AbstractController
         $comment = $commentRepository->find($id);
         $comment->setModifiedAt($date);
         $form = $this->createForm(CommentType::class, $comment);
-        
-        
+
+
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $doctrine->getManager();
-			$em->flush();
-            return $this->redirectToRoute('app_comment_show',[
-                'id'=>$id
+            $em->flush();
+            return $this->redirectToRoute('app_comment_show', [
+                'id' => $id
             ]);
         }
         return $this->render('comment/add.html.twig', [
@@ -96,6 +100,33 @@ class CommentController extends AbstractController
         $em->flush();
         return $this->redirectToRoute('app_comment');
     }
-    
 
+    #[Route('/{id<\d+>}/like', name: 'app_comment_like')]
+    public function like(int $id, LikeRepository $likeRepository, CommentRepository $commentRepository, EntityManagerInterface $em): JsonResponse
+    {
+        $user = $this->getUser();
+        $comment = $commentRepository->find($id);
+
+        if (!$comment) {
+            throw $this->createNotFoundException('Commentaire non trouvé');
+        }
+
+        if ($comment->isLikedByUser($user)) {
+            $like = $likeRepository->findOneBy(['comment' => $comment, 'user' => $user]);
+
+            $em->remove($like);
+            $em->flush();
+
+            return $this->json(['code' => 200, 'likes' => $likeRepository->getCountForComment($comment)], 200);
+        }
+
+        $like = new Like();
+        $like->setComment($comment)
+            ->setUser($user);
+
+        $em->persist($like);
+        $em->flush();
+
+        return $this->json(['code' => 200, 'likes' => $likeRepository->getCountForComment($comment)], 200);
+    }
 }
