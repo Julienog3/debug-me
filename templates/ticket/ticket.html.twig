@@ -9,6 +9,7 @@
     .category {margin : 2em 0 2em 0; border-bottom:2px solid black}
 </style>
 
+
 <div class="example-wrapper">
     <h1>{{ title }}! ✅</h1>
     <div class="category">
@@ -24,6 +25,7 @@
         <ul>
             {% for comment in comments %}
             {% set liked = false %}
+            {% set likeId = "null" %}
             <li class="category">
                 <p>Commentaire id : {{ comment.id }} </p>
                 <p>Nom de l'auteur du commentaire: {{ comment.author.firstname }} {{ comment.author.lastname }}</p>
@@ -39,14 +41,18 @@
 
                 {% for like in comment.likes %}
                     {% if like.user == user %}
+                        
                         {% set liked = true %}
+                        {% set likeId = like.id %}
                     {% endif %}
                 {% endfor %}
-
-                {% if liked %}
-                    <button name="removelike">Je n'aime plus</button>
-                {% else %}
-                    <button name="addlike">J'aime</button>
+                
+                {% if user %}
+                    {% if liked %}
+                        <button onclick="handleLike({{ comment.id }}, {{user.id}}, {{likeId}}, 'unlike')">Je n'aime plus</button>
+                    {% else %}
+                        <button onclick="handleLike({{ comment.id }}, {{user.id}}, {{likeId}}, 'like')">J'aime</button>
+                    {% endif %}
                 {% endif %}
             </li>
             {% endfor %}
@@ -59,4 +65,41 @@
         
     </div>
 </div>
+
+<script>
+
+
+function handleLike(commentid, userid, likeid, action) {
+    console.log("commentid : ",commentid);
+    console.log("userid : ",userid);
+    console.log("likeid : ",likeid);
+
+    // Utilisez jQuery pour envoyer une requête AJAX
+    $.ajax({
+        type: 'POST',
+        url: '{{ path('handle_like_ajax') }}',
+        contentType: 'application/json', // Ajoutez cette ligne pour spécifier le type de contenu JSON
+        data: JSON.stringify({
+            commentid: commentid,
+            userid: userid,
+            likeid: likeid,
+            action: action,
+        }),
+        success: function (data) {
+            // Réponse réussie
+            console.log(data);
+            // Mettez à jour l'interface utilisateur ou effectuez d'autres actions si nécessaire
+            // ...
+            // Exemple d'actualisation de la page après le traitement AJAX
+            location.reload();
+        },
+        error: function (error) {
+            // Gestion des erreurs
+            console.error("Erreur :",error);
+        }
+    });
+}
+
+</script>
 {% endblock %}
+
