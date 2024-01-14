@@ -15,6 +15,7 @@ use App\Entity\Tag;
 use App\Entity\Like;
 use App\Form\TicketType;
 use App\Form\CommentType;
+use App\Repository\TicketRepository;
 
 #[Route("/ticket")]
 class TicketController extends AbstractController
@@ -25,17 +26,16 @@ class TicketController extends AbstractController
         $ticketRepository = $doctrine->getRepository(Ticket::class);
         return $this->render('ticket/tickets.html.twig', [
             'controller_name' => 'TicketController',
-            'tickets'=>$ticketRepository->findAll(),
-            'title'=>"Tous les tickets"
+            'tickets' => $ticketRepository->findAll(),
+            'title' => "Tous les tickets"
         ]);
     }
     #[Route('/{id<\d+>}', name: 'app_ticket_show')]
-    public function show(int $id, ManagerRegistry $doctrine, Request $request): Response
+    public function show(int $id, ManagerRegistry $doctrine, Request $request, TicketRepository $ticketRepository): Response
     {
-        $ticketRepository = $doctrine->getRepository(Ticket::class);
-        $userRepository = $doctrine->getRepository(User::class); 
-        $commentRepository = $doctrine->getRepository(Comment::class); 
-        $likeRepository = $doctrine->getRepository(Like::class); 
+        $userRepository = $doctrine->getRepository(User::class);
+        $commentRepository = $doctrine->getRepository(Comment::class);
+        $likeRepository = $doctrine->getRepository(Like::class);
 
         $user = $this->getUser();
         $ticket = $ticketRepository->find($id);
@@ -43,41 +43,39 @@ class TicketController extends AbstractController
             ['ticket' => $ticket],
             ['created_at' => 'ASC']
         );
-        
-        foreach ($comments as $e){
+
+        foreach ($comments as $e) {
             $likes = $e->getLikes();
-            foreach($likes as $like){
+            foreach ($likes as $like) {
                 dump($like->getUser());
             }
         }
-        
+
         // Ajout de commentaire à la fin du ticket
         $form = null;
-        if($user){
+        if ($user) {
             $is_usefull = false;
-            $author_id = $user->getId() ;
+            $author_id = $user->getId();
             $comment = new Comment();
             $comment
                 ->setAuthor($userRepository->find($author_id))
                 ->setTicket($ticket)
-                ->setIsUsefull($is_usefull)
-            ;
+                ->setIsUsefull($is_usefull);
             $form = $this->createForm(CommentType::class, $comment);
             $form->handleRequest($request);
-            if($form->isSubmitted() && $form->isValid()){
+            if ($form->isSubmitted() && $form->isValid()) {
                 $em = $doctrine->getManager();
                 $em->persist($comment);
                 $em->flush();
-                return $this->redirectToRoute('app_ticket_show',['id' => $id]);
+                return $this->redirectToRoute('app_ticket_show', ['id' => $id]);
             }
         }
 
         return $this->render('ticket/ticket.html.twig', [
-            'controller_name' => 'TicketController',
-            'ticket'=>$ticket,
-            'title'=>"Le ticket",
+            'ticket' => $ticket,
+            'title' => "Le ticket",
             "form" => $form ? $form->createView() : null,
-            "comments"=>$comments,
+            "comments" => $comments,
             "user" => $user
         ]);
     }
@@ -88,21 +86,21 @@ class TicketController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
 
-        $author_id = $user->getId() ;
+        $author_id = $user->getId();
         $userRepository = $doctrine->getRepository(User::class);
-        
+
         $ticket = new Ticket();
         $form = $this->createForm(TicketType::class, $ticket);
         $ticket->setAuthor($userRepository->find($author_id));
         $form->handleRequest($request);
-        
-        if($form->isSubmitted() && $form->isValid()){
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $doctrine->getManager();
-			$em->persist($ticket);
-			$em->flush();
+            $em->persist($ticket);
+            $em->flush();
             return $this->redirectToRoute('app_ticket');
         }
-        
+
         return $this->render('ticket/add.html.twig', [
             "form" => $form->createView(),
         ]);
@@ -119,19 +117,19 @@ class TicketController extends AbstractController
         $ticket = $ticketRepository->find($id);
         dump($ticket->getAuthor()->getId());
 
-        if($user->getId() !== $ticket->getAuthor()->getId()){
+        if ($user->getId() !== $ticket->getAuthor()->getId()) {
             return $this->redirectToRoute('app_ticket');
         }
 
         $form = $this->createForm(TicketType::class, $ticket);
         $ticket->setModifiedAt($date);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $doctrine->getManager();
-			$em->flush();
-            return $this->redirectToRoute('app_ticket_show',[
-                'id'=>$id,
-                'title'=>"Modifier un ticket",
+            $em->flush();
+            return $this->redirectToRoute('app_ticket_show', [
+                'id' => $id,
+                'title' => "Modifier un ticket",
             ]);
         }
         return $this->render('ticket/add.html.twig', [
@@ -148,8 +146,4 @@ class TicketController extends AbstractController
         $em->flush();
         return $this->redirectToRoute('app_ticket');
     }
-
-    
-
 }
-

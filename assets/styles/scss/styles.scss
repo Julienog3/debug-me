@@ -11,6 +11,7 @@
 @import "pages/login";
 @import "pages/tickets/_add.scss";
 @import "pages/tickets/_list.scss";
+@import "pages/tickets/_single.scss";
 
 body {
   font-family: Poppins;
@@ -214,4 +215,10 @@ a {
   font-size: .8rem;
   width: fit-content;
   font-weight: 600;
+
+  &--active {
+    color: $primary;
+    border: 1px solid $primary;
+    background-color: rgba($primary, .3);
+  }
 }
