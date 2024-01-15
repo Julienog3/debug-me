@@ -7,9 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TicketRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[Assert\Cascade]
 class Ticket
 {
     #[ORM\Id]
@@ -39,7 +41,7 @@ class Ticket
     #[ORM\Column]
     private ?bool $done = null;
 
-    #[ORM\OneToMany(mappedBy: 'ticket', targetEntity: Comment::class)]
+    #[ORM\OneToMany(mappedBy: 'ticket', targetEntity: Comment::class, cascade: ["remove"],)]
     private Collection $comments;
 
     public function __construct()

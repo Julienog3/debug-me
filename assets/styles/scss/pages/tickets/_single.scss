@@ -2,23 +2,36 @@
   display: flex;
   min-height: 90vh;
   align-items: flex-start;
-
+  flex-direction: column-reverse;
+  // max-width: 1440px;
+  // margin: 0 auto;
   gap: 1rem;
   padding: 1rem;
+  overflow-y: scroll;
+
+  @media only screen and (min-width: 1440px) {
+    flex-direction: row;
+  }
 
   .card {
-    // width: 40rem;
     padding: 1.5rem;
 
-    &.left {
-      flex: 0 0 70%;
-      max-width: 70%;
-      
+    &.right {
+      width: 100%;
     }
 
-    &.right {
-      flex: 1 1 30%
-    }
+    @media only screen and (min-width: 1440px) {
+      &.left {
+        flex: 0 0 70%;
+        max-width: 70%;
+      }
+    
+      &.right {
+        flex: 1 1 30%;
+        position: sticky;
+        top: 0;
+      }
+    }   
 
     &-header {
       display: flex;
@@ -58,7 +71,7 @@
 
     &-tags {
       display: flex;
-      gap: 1rem;
+      gap: .5rem;
       margin-bottom: 1rem;
     }
 
@@ -110,6 +123,7 @@
         display: flex;
         gap: 1rem;
         align-items: center;
+        margin-bottom: .75rem;
 
         .chip {
           padding: .5rem 1rem;
@@ -120,30 +134,93 @@
       &-list {
         display: flex;
         flex-direction: column;
-
-
+        gap: 1.5rem;
+        margin-bottom: 1rem;
       }
     }
 
     &-comment {
+      display: flex;
+      justify-content: flex-start;
+      gap: 1.5rem;
+      width: 100%;
+      position: relative;
+
+      &__dot {
+        z-index: 2;
+        display: block;
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 999px;
+        background-color: $primary;
+        border: solid 5px #c9b0ff;
+        flex-shrink: 0;
+      }
+
+      &-card {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        width: 100%;
+        flex: 1;
+        gap: 1rem;
+      }
+
       &__content {
-        color: #A4A4A4;
+        color: $black;
         font-size: 0.8rem;
         line-height: 1.5;
+      }
+
+      &:not(:last-child)::before {
+        content: "";
+        z-index: 1;
+        position: absolute;
+        display: block;
+        width: 1px;
+        height: calc(100% + 1.5rem);
+        background-color: $gray;
+        left: 0.6rem;
+      }
+    }
+
+    &-answer {
+      display: flex;
+      flex-direction: column;
+
+      &__title {
+        color: $black;
+        margin-bottom: 1rem;
+      }
+
+      &-form {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
+    &-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+
+      &-edition {
+        display: flex;
+        gap: .5rem
       }
     }
   }
 
   .button {
-    margin-top: 1.5rem;
     background-color: $primary;
     font-family: Poppins;
     border: none;
     border-radius: 8px;
-    padding: .5rem 1rem;
+    padding: .75rem 1rem;
     color: $white;
     cursor: pointer;
     align-self: end;
+    font-size: .8rem;
   }
 }
 

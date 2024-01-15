@@ -33,14 +33,32 @@
             {% if comments | length %}
             <ul class="ticket-comments-list">
                 {% for comment in comments %}
-                    <li class="card ticket-comment">
-                        {{ dump(comment) }}
-                        <p class="ticket-comment__content">{{ comment.content }}</p>
+                    <li class="ticket-comment">
+                        <span class="ticket-comment__dot"></span>
+                        <article class="card ticket-comment-card">
+                            <div class="ticket-profile">
+                                <img class="ticket-profile__picture" src="{{ asset('/images/profile-picture.png')}}"/>
+                                {{ ticket.author.firstname }}
+                                {{ ticket.author.lastname }}
+                            </div>
+                            <p class="ticket-comment__content">{{ comment.content }}</p>
+                        </article>
                     </li>
                 {% endfor %}
             </ul>
             {% endif %}
         </div>
+        {% if form %}
+        <div class="ticket-answer">
+            <h3 class="ticket-answer__title">Votre réponse</h3>
+            <div class="form-group">
+                {{ form_start(form, { 'attr': {'class': 'ticket-answer-form' } }) }}
+                    <textarea rows="6" name="{{ field_name(form.content) }}" value="{{ field_value(form.content) }}" placeholder="Description de la question" class="form__input"></textarea>
+                    {{ form_widget(form.submit, { 'label': 'Envoyer', 'attr': {'class': 'button' } }) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+        {% endif %}
     </div>
     <div class="card right">
         <ul class="ticket-list">
@@ -69,8 +87,22 @@
                 {% endif %}
             </li>
         </ul>
-        <span class="card__divider"></span>
-        <button class="button">Ajouter une réponse</button>
+        {% if user == ticket.author %}
+        <span class="card__divider"></span> 
+        <div class="ticket-actions">
+            <div class="ticket-actions-edition">
+                <a href="{{ path('app_ticket_edit', { id: ticket.id }) }}">
+                    <div role="button" class="button"><i class="fa-solid fa-pen-to-square"></i></div>
+                </a>
+                <a href="{{ path('app_ticket_delete', { id: ticket.id }) }}">
+                    <div role="button" class="button"><i class="fa-solid fa-trash"></i></div>
+                </a>
+            </div>
+            <a href="{{ path('app_ticket_done', { id: ticket.id }) }}">
+                <div role="button" class="button">Marquer comme résolu</div>
+            </a>
+        </div>
+        {% endif %}
     </div>
 </main>
 {% endblock %}

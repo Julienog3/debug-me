@@ -71,9 +71,10 @@ class TicketController extends AbstractController
             }
         }
 
+        
+
         return $this->render('ticket/ticket.html.twig', [
             'ticket' => $ticket,
-            'title' => "Le ticket",
             "form" => $form ? $form->createView() : null,
             "comments" => $comments,
             "user" => $user
@@ -124,26 +125,44 @@ class TicketController extends AbstractController
         $form = $this->createForm(TicketType::class, $ticket);
         $ticket->setModifiedAt($date);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $doctrine->getManager();
             $em->flush();
             return $this->redirectToRoute('app_ticket_show', [
                 'id' => $id,
-                'title' => "Modifier un ticket",
             ]);
         }
-        return $this->render('ticket/add.html.twig', [
+        return $this->render('ticket/edit.html.twig', [
             "form" => $form->createView()
         ]);
     }
     #[Route('/{id<\d+>}/supprimer', name: 'app_ticket_delete')]
-    public function delete(int $id, ManagerRegistry $doctrine, EntityManagerInterface $em): Response
+    public function delete(int $id, TicketRepository $ticketRepository, EntityManagerInterface $em): Response
     {
-        $em = $doctrine->getManager();
-        $ticketRepository = $doctrine->getRepository(Ticket::class);
         $ticket = $ticketRepository->find($id);
         $em->remove($ticket);
         $em->flush();
         return $this->redirectToRoute('app_ticket');
+    }
+
+    /**
+     * @Route("/mark-ticket-done/{ticketId}", name="mark_ticket_done")
+     */
+    #[Route('/{id<\d+>}/mark-as-done', name: 'app_ticket_done')]
+    public function markTicketAsDone(int $id, TicketRepository $ticketRepository, EntityManagerInterface $em)
+    {
+        $ticket = $ticketRepository->find($id);
+
+        if (!$ticket) {
+            throw $this->createNotFoundException('Ticket non trouvé');
+        }
+
+        $ticket->setDone(true);
+        $em->flush();
+
+        return $this->redirectToRoute('app_ticket_show', [
+            'id' => $id,
+        ]);
     }
 }

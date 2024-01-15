@@ -1,7 +1,6 @@
 {% extends 'layouts/layout_authenticated.html.twig' %}
 
-{% block title %}Tous les tickets - Debug.me
-{% endblock %}
+{% block title %}Tous les tickets - Debug.me{% endblock %}
 
 {% block content %}
 	<div class="tickets-list-page">
@@ -12,7 +11,7 @@
 			<ul class="tickets-list">
 				{% for ticket in tickets %}
 					<li class="tickets-list__item">
-						<a href="{{ path('app_ticket_show', {id:ticket.id})}}">
+						<a href="{{ path('app_ticket_show', { id: ticket.id })}}">
 							<article class="ticket">
 								<div class="ticket-content">
 									<div class="ticket-header">
@@ -39,7 +38,7 @@
 										<div class="ticket-answers">
 											<i class="fa-solid fa-comment"></i>
 											{{ ticket.comments | length }}
-											Réponse
+											Réponse{{ ticket.comments | length > 1 ? 's' : ''}}
 										</div>
 										<div class="ticket-profile">
 											<img class="ticket-profile__picture" src="{{ asset('/images/profile-picture.png')}}"/>
@@ -49,12 +48,6 @@
 									</div>
 								</div>
 							</article>
-							{# <p>Créé le :
-							{{ ticket.createdAt|date('Y-m-d H:i:s') }}</p>
-						<p>Modifier le  :
-							{{ ticket.modifiedAt|date('Y-m-d H:i:s') }}</p>
-						<p>Problème résolu :
-							{{ticket.done ? "Oui": "Non"}}</p> #}
 						</a>
 					</li>
 				{% endfor %}
