@@ -212,15 +212,31 @@
   }
 
   .button {
-    background-color: $primary;
     font-family: Poppins;
     border: none;
     border-radius: 8px;
     padding: .75rem 1rem;
-    color: $white;
     cursor: pointer;
     align-self: end;
     font-size: .8rem;
+    display: flex;
+    gap: .5rem;
+
+    &--outlined {
+      background-color: rgba($primary, 0.3);
+      border: solid 1px $primary;
+      color: $primary;
+    }
+
+    &--neutral {
+      border: solid 1px $gray;
+      color: $black;
+    }
+
+    &--filled {
+      color: $white;
+      background-color: $primary;
+    }
   }
 }
 

@@ -92,14 +92,14 @@
         <div class="ticket-actions">
             <div class="ticket-actions-edition">
                 <a href="{{ path('app_ticket_edit', { id: ticket.id }) }}">
-                    <div role="button" class="button"><i class="fa-solid fa-pen-to-square"></i></div>
+                    <div role="button" class="button button--outlined"><i class="fa-solid fa-pen-to-square"></i></div>
                 </a>
                 <a href="{{ path('app_ticket_delete', { id: ticket.id }) }}">
-                    <div role="button" class="button"><i class="fa-solid fa-trash"></i></div>
+                    <div role="button" class="button button--neutral"><i class="fa-solid fa-trash"></i></div>
                 </a>
             </div>
             <a href="{{ path('app_ticket_done', { id: ticket.id }) }}">
-                <div role="button" class="button">Marquer comme résolu</div>
+                <div role="button" class="button button--filled"><i class="fa-solid fa-check"></i>Marquer comme résolu</div>
             </a>
         </div>
         {% endif %}
