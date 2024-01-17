@@ -36,7 +36,7 @@ class TicketType extends AbstractType
                         ->orderBy('t.name', 'ASC');
                 }
             ])
-            ->add('submit', SubmitType::class, ['label' => "Ajouter le ticket"]);
+            ->add('submit', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

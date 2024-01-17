@@ -2,12 +2,11 @@
   display: flex;
   // min-height: 90vh;
   align-items: center;
-  // max-width: 1440px;
-  // margin: 0 auto;
+  max-width: 1440px;
+  margin: 0 auto;
   padding: 4rem;
 
   .card {
-    // flex: 1; // width: 50rem;
     padding: 1.5rem;
 
     &__title {

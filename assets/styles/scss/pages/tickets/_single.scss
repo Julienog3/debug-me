@@ -1,0 +1,242 @@
+.ticket-page {
+  display: flex;
+  min-height: 90vh;
+  align-items: flex-start;
+  flex-direction: column-reverse;
+  // max-width: 1440px;
+  // margin: 0 auto;
+  gap: 1rem;
+  padding: 1rem;
+  overflow-y: scroll;
+
+  @media only screen and (min-width: 1440px) {
+    flex-direction: row;
+  }
+
+  .card {
+    padding: 1.5rem;
+
+    &.right {
+      width: 100%;
+    }
+
+    @media only screen and (min-width: 1440px) {
+      &.left {
+        flex: 0 0 70%;
+        max-width: 70%;
+      }
+    
+      &.right {
+        flex: 1 1 30%;
+        position: sticky;
+        top: 0;
+      }
+    }   
+
+    &-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    &__divider {
+      display: block;
+      height: 1px;
+      width: 100%;
+      background-color: $gray;
+    }
+  }
+
+  .ticket {
+    &__title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: $black;
+    }
+
+    &-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1rem;
+
+      &__item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: .8rem;
+      }
+    }
+
+    &-tags {
+      display: flex;
+      gap: .5rem;
+      margin-bottom: 1rem;
+    }
+
+    &__content {
+      font-size: .9rem;
+      line-height: 1.5;
+      color: $gray;
+      margin-bottom: 1.5rem;
+    }
+
+    &__status {
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      width: 2rem;
+      height: 2rem;
+
+      &--done {
+        border: solid 1px $primary;
+        background-color: rgba($primary, .3);
+        color: $primary;
+      }
+
+      &--undone {
+        border: dashed 1px $gray;
+        color: $gray;
+      }
+    }
+
+    &-profile {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: .8rem;
+      font-weight: 500;
+      color: $black;
+
+      &__picture {
+        width: 2rem;
+        border-radius: 4px;
+      }
+    }
+
+    &-comments {
+      display: flex;
+      flex-direction: column;
+
+      &-header {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        margin-bottom: .75rem;
+
+        .chip {
+          padding: .5rem 1rem;
+          font-size: .8rem;
+        }
+      }
+
+      &-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-bottom: 1rem;
+      }
+    }
+
+    &-comment {
+      display: flex;
+      justify-content: flex-start;
+      gap: 1.5rem;
+      width: 100%;
+      position: relative;
+
+      &__dot {
+        z-index: 2;
+        display: block;
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 999px;
+        background-color: $primary;
+        border: solid 5px #c9b0ff;
+        flex-shrink: 0;
+      }
+
+      &-card {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        width: 100%;
+        flex: 1;
+        gap: 1rem;
+      }
+
+      &__content {
+        color: $black;
+        font-size: 0.8rem;
+        line-height: 1.5;
+      }
+
+      &:not(:last-child)::before {
+        content: "";
+        z-index: 1;
+        position: absolute;
+        display: block;
+        width: 1px;
+        height: calc(100% + 1.5rem);
+        background-color: $gray;
+        left: 0.6rem;
+      }
+    }
+
+    &-answer {
+      display: flex;
+      flex-direction: column;
+
+      &__title {
+        color: $black;
+        margin-bottom: 1rem;
+      }
+
+      &-form {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
+    &-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+
+      &-edition {
+        display: flex;
+        gap: .5rem
+      }
+    }
+  }
+
+  .button {
+    font-family: Poppins;
+    border: none;
+    border-radius: 8px;
+    padding: .75rem 1rem;
+    cursor: pointer;
+    align-self: end;
+    font-size: .8rem;
+    display: flex;
+    gap: .5rem;
+
+    &--outlined {
+      background-color: rgba($primary, 0.3);
+      border: solid 1px $primary;
+      color: $primary;
+    }
+
+    &--neutral {
+      border: solid 1px $gray;
+      color: $black;
+    }
+
+    &--filled {
+      color: $white;
+      background-color: $primary;
+    }
+  }
+}
+

@@ -11,15 +11,24 @@
 @import "pages/login";
 @import "pages/tickets/_add.scss";
 @import "pages/tickets/_list.scss";
+@import "pages/tickets/_single.scss";
 
 body {
   font-family: Poppins;
   display: flex;
   background-color: $light-gray;
+
 }
 
 a {
   text-decoration: none;
+}
+
+.layout {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  overflow: hidden;
 }
 
 .header {
@@ -27,9 +36,10 @@ a {
   align-items: center;
   background-color: $white;
   border-bottom: 1px $gray solid;
-  height: 5rem;
+  height: 4rem;
   padding: 0 1.5rem;
   gap: 1rem;
+  flex-shrink: 0;
 
   &__icon {
     width: 2.5rem;
@@ -39,7 +49,7 @@ a {
 .sidebar {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
   background-color: $white;
   width: 20rem;
   border-right: 1px solid $gray;
@@ -47,7 +57,7 @@ a {
   &-header {
     display: flex;
     gap: 1rem;
-    height: 5rem;
+    height: 4rem;
     padding: 0 1.5rem;
     border-bottom: 1px $gray solid;
     align-items: center;
@@ -214,4 +224,10 @@ a {
   font-size: .8rem;
   width: fit-content;
   font-weight: 600;
+
+  &--active {
+    color: $primary;
+    border: 1px solid $primary;
+    background-color: rgba($primary, .3);
+  }
 }

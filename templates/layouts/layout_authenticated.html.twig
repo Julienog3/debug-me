@@ -1,9 +1,11 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
+	<div class="layout">
 	{% include "partials/_sidebar.html.twig" %}
 	<div class="page">
 		{% include "partials/_header.html.twig" %}
 		{% block content %}{% endblock %}
+	</div>
 	</div>
 {% endblock %}
