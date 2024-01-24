@@ -3,7 +3,7 @@
 		<a href="{{ path('app_profile') }}">
 			<div class="sidebar-header">
 				{% if app.user %}
-					<img class="sidebar-header__picture" src="{{ asset('/images/profile-picture.png')}}"/>
+					<img class="sidebar-header__picture" src="{{ asset('uploads/icons/' ~ app.user.icon) }}"/>
 					{{ app.user.firstname }} {{ app.user.lastname }}
 					<i class="fa-solid fa-sort-down"></i>
 				{% endif %}

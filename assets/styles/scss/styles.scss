@@ -67,6 +67,7 @@ a {
 
     &__picture {
       width: 2.5rem;
+      height: 2.5rem;
       object-fit: cover;
       border-radius: 10px;
     }
@@ -200,7 +201,7 @@ a {
     padding: 1rem 0;
 
     .ticket {
-      
+
       &-header {
         display: flex;
         gap: 1rem;

@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
@@ -50,13 +51,37 @@ class UserController extends AbstractController
     }
 
     #[Route('/', name: 'app_profile')]
-    public function profile(Request $request, EntityManagerInterface $entityManager): Response
+    public function profile(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $user = $this->getUser();
         $form = $this->createForm(EditUserType::class, $user);
-
         $form->handleRequest($request);
+        
         if($form->isSubmitted() && $form->isValid()) {
+
+            $iconFile = $form->get('icon')->getData();
+
+            if ($iconFile) {
+                $originalFilename = pathinfo($iconFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$iconFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $iconFile->move(
+                        $this->getParameter('icons_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $user->setIcon($newFilename);
+            }
+
 			$entityManager->flush();
             return $this->redirectToRoute('app_home');
         }
