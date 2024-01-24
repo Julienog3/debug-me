@@ -1,11 +1,14 @@
 {% block sidebar %}
 	<aside class="sidebar">
-		<div class="sidebar-header">
-			<img class="sidebar-header__picture" src="{{ asset('/images/profile-picture.png')}}"/>
-			John Doe
-			<i class="fa-solid fa-sort-down"></i>
-
-		</div>
+		<a href="{{ path('app_profile') }}">
+			<div class="sidebar-header">
+				{% if app.user %}
+					<img class="sidebar-header__picture" src="{{ asset('/images/profile-picture.png')}}"/>
+					{{ app.user.firstname }} {{ app.user.lastname }}
+					<i class="fa-solid fa-sort-down"></i>
+				{% endif %}
+			</div>
+		</a>
 		<nav class="nav">
 			<ul class="nav-list">
 				<li {% if app.request.get('_route') == 'app_home' %} class="nav-list__item nav-list__item--active" {% else %} class="nav-list__item" {% endif %}>

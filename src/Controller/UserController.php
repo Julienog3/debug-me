@@ -12,20 +12,9 @@ use App\Entity\User;
 use App\Entity\Rank;
 use App\Form\EditUserType;
 
-#[Route("/user")]
+#[Route("/profile")]
 class UserController extends AbstractController
 {
-    #[Route('/', name: 'app_user')]
-    public function index(ManagerRegistry $doctrine): Response
-    {
-        $userRepository = $doctrine->getRepository(User::class);
-        dump($userRepository->findAll());
-        return $this->render('user/users.html.twig', [
-            'controller_name' => 'UserController',
-            'users'=>$userRepository->findAll(),
-            'title'=>"Tous les utilisateurs"
-        ]);
-    }
     #[Route('/{id<\d+>}', name: 'app_user_show')]
     public function show(int $id, ManagerRegistry $doctrine): Response
     {
@@ -59,35 +48,34 @@ class UserController extends AbstractController
             "nextRank"=>$closest_value
         ]);
     }
-    #[Route('/{id<\d+>}/editer', name: 'app_user_edit')]
-    public function edit(int $id, ManagerRegistry $doctrine, Request $request): Response
+
+    #[Route('/', name: 'app_profile')]
+    public function profile(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $userRepository = $doctrine->getRepository(User::class);
-        $user = $userRepository->find($id);
+        $user = $this->getUser();
         $form = $this->createForm(EditUserType::class, $user);
-        
+
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-            $em = $doctrine->getManager();
-			$em->flush();
-            return $this->redirectToRoute('app_user_show',[
-                'id'=>$id
-            ]);
+        if($form->isSubmitted() && $form->isValid()) {
+			$entityManager->flush();
+            return $this->redirectToRoute('app_home');
         }
-        return $this->render('user/edit.html.twig', [
-            "form" => $form->createView()
+
+        return $this->render('profile/index.html.twig', [
+            'user' => $user,
+            'form' => $form->createView()
         ]);
     }
-    #[Route('/{id<\d+>}/supprimer', name: 'app_user_delete')]
-    public function delete(int $id, ManagerRegistry $doctrine, EntityManagerInterface $em): Response
-    {
-        $em = $doctrine->getManager();
-        $userRepository = $doctrine->getRepository(User::class);
-        $user = $userRepository->find($id);
-        $em->remove($user);
-        $em->flush();
-        return $this->redirectToRoute('app_user');
-    }
-    
 
+    #[Route('/tickets', name: 'app_profile_tickets')]
+    public function profileTickets(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+        $tickets = $user->getTickets();
+
+        return $this->render('profile/tickets.html.twig', [
+            'user' => $user,
+            'tickets' => $tickets,
+        ]);
+    }
 }

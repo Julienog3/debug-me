@@ -1,0 +1,56 @@
+{% extends 'layouts/layout_authenticated.html.twig' %}
+
+{% block title %}Mes tickets - Debug.me{% endblock %}
+
+{% block content %}
+<main class="profile-page">
+  <div class="left">
+    <div class="card profile-header">
+      <img class="profile__picture" src="{{ asset('/images/profile-picture.png')}}"/>
+			<div class="profile-details">
+        <p class="profile-details__title">{{ user.firstname }} {{ user.lastname }}</p>
+        <span class="chip">Diamant</span>
+      </div>
+    </div>
+    <div class="card profile-tickets">
+      <div class="profile-tickets-header">
+        <h1 class="profile-tickets-header__title">Mon tickets</h1>
+      </div>
+      <ul class="ticket-list-body">
+      {% for ticket in tickets %}
+        <li class="ticket-list-item">
+          <a href="{{ path('app_ticket_show', { id: ticket.id })}}">
+            <div class="ticket-header">
+              {% if ticket.isDone %}
+                <span class="ticket-list-item__status ticket-list-item__status--done">
+                  <i class="fa-solid fa-check"></i>
+                </span>
+              {% else %}
+                <span class="ticket-list-item__status ticket-list-item__status--undone">
+                  <i class="fa-solid fa-question"></i>
+                </span>
+              {% endif %}
+              <h4 class="ticket-list-item__title">{{ ticket.title }}</h4>
+            </div>
+            <p class="ticket-list-item__description">{{ ticket.content }}</p>
+            <ul class="ticket-list-item__list">
+              {% for tag in ticket.tags %}
+                <li class="chip">{{ tag.name }}</li>
+              {% endfor %}
+            </ul>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="card right">
+    <h2 class="menu__title">Mon profil</h2>
+    <ul class="menu-list">
+        <li class="menu-list__item"><a href="{{ path('app_profile') }}">Mon compte <i class="fa-solid fa-angle-right"></i></a></li>
+        <li class="menu-list__item"><a href="{{ path('app_profile_tickets') }}">Mes tickets <i class="fa-solid fa-angle-right"></i></a></li>
+        <li class="menu-list__item"><a href="{{ path('app_rank') }}">Mes contributions <i class="fa-solid fa-angle-right"></i></a></li>
+    </ul>
+  </div>
+</main>
+{% endblock %}

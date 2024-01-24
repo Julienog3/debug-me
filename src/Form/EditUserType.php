@@ -11,6 +11,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ResetType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class EditUserType extends AbstractType
 {
@@ -26,7 +28,8 @@ class EditUserType extends AbstractType
                 'required' => false, // Le champ n'est pas obligatoire
 
             ])
-            ->add('submit', SubmitType::class   , ['label'=>"Enregistrer"])
+            ->add('reset', ResetType::class, ['label' => 'Annuler'])
+            ->add('submit', SubmitType::class, ['label' => "Sauvegarder"])
         ;
     }
 

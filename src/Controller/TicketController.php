@@ -25,7 +25,6 @@ class TicketController extends AbstractController
     {
         $ticketRepository = $doctrine->getRepository(Ticket::class);
         return $this->render('ticket/tickets.html.twig', [
-            'controller_name' => 'TicketController',
             'tickets' => $ticketRepository->findAll(),
             'title' => "Tous les tickets"
         ]);
