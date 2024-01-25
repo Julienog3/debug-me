@@ -37,7 +37,7 @@
                     <p>Créé le :  {{ comment.createdAt|date('H:i:s d-m-Y') }}</p>
                 {% endif %}
                 
-                <p>Like : {{ comment.likes|length }}
+                <p>Like : {{ comment.likes|length }}</p>
 
                 {% for like in comment.likes %}
                     {% if like.user == user %}
@@ -46,7 +46,6 @@
                         {% set likeId = like.id %}
                     {% endif %}
                 {% endfor %}
-                {% dump(comment.author) %}
                 {% if user and user != comment.author %}
                     {% if liked %}
                         <button onclick="handleLike({{ comment.id }}, {{user.id}}, {{likeId}}, 'unlike')">Je n'aime plus</button>
@@ -54,6 +53,15 @@
                         <button onclick="handleLike({{ comment.id }}, {{user.id}}, {{likeId}}, 'like')">J'aime</button>
                     {% endif %}
                 {% endif %}
+
+                {% if comment.isUsefull %}
+                    <p>Le commentaire a été utile</p>
+                {% endif %}
+
+                {% if user == ticket.author and comment.isUsefull == false %}
+                    <button onclick="usefullComment({{ comment.id }})">Utile !</button>
+                {% endif %}
+                
             </li>
             {% endfor %}
         </ul>
@@ -100,6 +108,28 @@ function handleLike(commentid, userid, likeid, action) {
     });
 }
 
+function usefullComment(commentid){
+    $.ajax({
+        type: 'POST',
+        url: '{{ path('handle_usefull') }}',
+        contentType: 'application/json', // Ajoutez cette ligne pour spécifier le type de contenu JSON
+        data: JSON.stringify({
+            commentid: commentid
+        }),
+        success: function (data) {
+            // Réponse réussie
+            console.log(data);
+            // Mettez à jour l'interface utilisateur ou effectuez d'autres actions si nécessaire
+            // ...
+            // Exemple d'actualisation de la page après le traitement AJAX
+            location.reload();
+        },
+        error: function (error) {
+            // Gestion des erreurs
+            console.error("Erreur :",error);
+        }
+    });
+}
 </script>
 {% endblock %}
 

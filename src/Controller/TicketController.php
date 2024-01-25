@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Comment;
@@ -151,6 +152,40 @@ class TicketController extends AbstractController
     }
 
     
+    #[Route('/usefull', name: 'handle_usefull')]
+    public function usefull(Request $request, ManagerRegistry $doctrine): JsonResponse
+    {
+        $requestData = json_decode($request->getContent(), true);
+        if($requestData){
+            $commentid = $requestData['commentid'];
 
+            $commentRepository = $doctrine->getRepository(Comment::class);
+            $userRepository = $doctrine->getRepository(User::class);
+            $ticketRepository = $doctrine->getRepository(Ticket::class);
+
+            $comment= $commentRepository->find($commentid);
+            $user= $userRepository->find($comment->getAuthor());
+            $ticket= $ticketRepository->find($comment->getTicket());
+
+            $activity_point = $user->getActivityPoint();
+
+            $em = $doctrine->getManager();
+            $comment->setIsUsefull(true);
+            $user->setActivityPoint($activity_point+10);
+            $em->persist($ticket, $user);
+			$em->flush();
+
+            // Exemple de réponse JSON
+            $response = [
+                'status' => 'success',
+                'message' => 'Le commentaire a été utile !.',
+            ];
+            return new JsonResponse($response);
+            }
+        
+        return $this->render('home/index.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
 }
 
