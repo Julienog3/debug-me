@@ -46,8 +46,8 @@
                         {% set likeId = like.id %}
                     {% endif %}
                 {% endfor %}
-                
-                {% if user %}
+                {% dump(comment.author) %}
+                {% if user and user != comment.author %}
                     {% if liked %}
                         <button onclick="handleLike({{ comment.id }}, {{user.id}}, {{likeId}}, 'unlike')">Je n'aime plus</button>
                     {% else %}
