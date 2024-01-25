@@ -87,19 +87,25 @@ class TicketController extends AbstractController
         // User connecté
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
-
-        $author_id = $user->getId() ;
         $userRepository = $doctrine->getRepository(User::class);
         
         $ticket = new Ticket();
         $form = $this->createForm(TicketType::class, $ticket);
-        $ticket->setAuthor($userRepository->find($author_id));
+        $ticket->setAuthor($user);
         $form->handleRequest($request);
-        
+
+        // Gestion des points d'activité
+        $activity_point = $user->getActivityPoint();
+        dump($activity_point);
+
         if($form->isSubmitted() && $form->isValid()){
+            $user->setActivityPoint($activity_point+1);
             $em = $doctrine->getManager();
-			$em->persist($ticket);
+			$em->persist($ticket, $user);
 			$em->flush();
+
+            
+
             return $this->redirectToRoute('app_ticket');
         }
         
