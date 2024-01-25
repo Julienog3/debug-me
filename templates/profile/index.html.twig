@@ -1,0 +1,46 @@
+{% extends 'layouts/layout_authenticated.html.twig' %}
+
+{% block title %}Mon profil - Debug.me{% endblock %}
+
+{% block content %}
+<main class="profile-page">
+  <div class="left">
+    <div class="card profile-header">
+      <img class="profile__picture" src="{{ asset('uploads/icons/' ~ user.icon) }}"/>
+			<div class="profile-details">
+        <p class="profile-details__title">{{ user.firstname }} {{ user.lastname }}</p>
+        <span class="chip">Diamant</span>
+      </div>
+    </div>
+    <div class="card profile-form">
+      <div class="profile-form-header">
+        <h1 class="profile-form-header__title">Mon compte</h1>
+      </div>
+      {{ form_start(form, {'attr': { 'class': 'form' }}) }}
+        <div class="form-group form-group--split">
+          {{ form_label(form.firstname, null, {'attr': {'class': 'form__label'}}) }}
+          {{ form_widget(form.firstname, {'attr': {'class': 'form__input'}}) }}
+        </div>
+        <div class="form-group form-group--split">
+          {{ form_label(form.lastname, null, {'attr': {'class': 'form__label'}}) }}
+          {{ form_widget(form.lastname, {'attr': {'class': 'form__input'}}) }}
+        </div>
+        <div class="form-group">
+          {{ form_label(form.email, null, {'attr': {'class': 'form__label'}}) }}
+          {{ form_widget(form.email, {'attr': {'class': 'form__input'}}) }}
+        </div>
+        {{ form_widget(form.reset, { 'attr': {'class': 'button button--neutral' } }) }}
+        {{ form_widget(form.submit, { 'attr': {'class': 'button button--filled' } }) }}
+      {{ form_end(form) }}
+    </div>
+  </div>
+  <div class="card right">
+    <h2 class="menu__title">Mon profil</h2>
+    <ul class="menu-list">
+        <li class="menu-list__item"><a href="{{ path('app_profile') }}">Mon compte <i class="fa-solid fa-angle-right"></i></a></li>
+        <li class="menu-list__item"><a href="{{ path('app_profile_tickets') }}">Mes tickets <i class="fa-solid fa-angle-right"></i></a></li>
+        <li class="menu-list__item"><a href="{{ path('app_rank') }}">Mes contributions <i class="fa-solid fa-angle-right"></i></a></li>
+    </ul>
+  </div>
+</main>
+{% endblock %}
