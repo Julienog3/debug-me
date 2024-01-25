@@ -78,6 +78,22 @@ class UserController extends AbstractController
         
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+            
+            $uploadedFile = $form['icon']->getData();
+
+            if ($uploadedFile) {
+                $newFilename = uniqid().'.'.$uploadedFile->guessExtension();
+
+                // Déplacez le fichier vers le répertoire où vous souhaitez le stocker
+                $uploadedFile->move(
+                    $this->getParameter('icon_directory'),
+                    $newFilename
+                );
+
+                // Mettez à jour la propriété icon de l'entité User
+                $user->setIcon($newFilename);
+            }
+
             $em = $doctrine->getManager();
 			$em->flush();
             return $this->redirectToRoute('app_user_show',[

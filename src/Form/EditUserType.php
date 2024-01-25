@@ -11,6 +11,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\Image;
 
 class EditUserType extends AbstractType
 {
@@ -22,8 +24,14 @@ class EditUserType extends AbstractType
             ->add('lastname', null, ['label'=>"Nom"])
             ->add('icon', FileType::class, [
                 'label' => 'Icone',
-                'mapped' => false, // Le champ n'est pas mappé sur une propriété de l'entité
                 'required' => false, // Le champ n'est pas obligatoire
+                'constraints' => [
+                    new Image([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => ['image/jpeg', 'image/png', 'image/gif'],
+                        'mimeTypesMessage' => 'Please upload a valid image (JPEG, PNG, GIF)',
+                    ]),
+                ],
 
             ])
             ->add('submit', SubmitType::class   , ['label'=>"Enregistrer"])
