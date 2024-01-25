@@ -19,7 +19,10 @@
             <p>Nom :   {{ user.lastname }}</p>
             <p>Créé le :  {{ user.createdAt|date('d-m-Y ') }}</p>
             <p>Icone :  {{ user.icon }}</p>
-            <p>Point d'activité : {{user.activityPoint}} / {{nextRank}}</p>
+            <p>Point d'activité totale : {{user.activityPoint}}</p>
+            <p>Prochain rang dans : {{nextRank.requiredPoint - lastRank.requiredPoint}} pts d'activité</p>
+            <p>{{user.activityPoint - lastRank.requiredPoint}} <input type="range" min={{lastRank.requiredPoint}} value={{user.activityPoint}} max={{nextRank.requiredPoint}} readOnly/> Rang Suivant : {{nextRank.name}}</p>
+            
         </li>
         
     </ul>

@@ -19,7 +19,6 @@ class UserController extends AbstractController
     public function index(ManagerRegistry $doctrine): Response
     {
         $userRepository = $doctrine->getRepository(User::class);
-        dump($userRepository->findAll());
         return $this->render('user/users.html.twig', [
             'controller_name' => 'UserController',
             'users'=>$userRepository->findAll(),
@@ -43,20 +42,31 @@ class UserController extends AbstractController
 
         // Utilisez la fonction array_filter pour filtrer les valeurs supérieures à la valeur de base
         $filtered_array = array_filter($array_ranks, function ($value) use ($base_value) {
-            return $value >= $base_value;
+            return $value > $base_value;
         });
        
         // Si le tableau filtré n'est pas vide, trouvez la valeur minimale (la plus proche et supérieure)
         if (!empty($filtered_array)) {
-            $closest_value = min($filtered_array); // Valeur du prochain rang
+            $closest_next_value = min($filtered_array); // Valeur du prochain rang
         }
 
+        $filtered_array = array_filter($array_ranks, function ($value) use ($base_value) {
+            return $value <= $base_value;
+        });
+        
+        // Si le tableau filtré n'est pas vide, trouvez la valeur maximale (la plus proche et inférieure)
+        if (!empty($filtered_array)) {
+            $closest_last_value = max($filtered_array); // Valeur du rang précédent
+        }
+        $nextRank = $rankRepository->findBy(["required_point"=>$closest_next_value], [],1);
+        $lastRank = $rankRepository->findBy(["required_point"=>$closest_last_value], [],1);
 
         return $this->render('user/user.html.twig', [
             'controller_name' => 'UserController',
             'user'=>$user,
             'title'=>"Un utilisateur",
-            "nextRank"=>$closest_value
+            "nextRank"=>$nextRank[0],
+            "lastRank"=>$lastRank[0]
         ]);
     }
     #[Route('/{id<\d+>}/editer', name: 'app_user_edit')]
