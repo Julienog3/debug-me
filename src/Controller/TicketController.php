@@ -38,35 +38,31 @@ class TicketController extends AbstractController
         $likeRepository = $doctrine->getRepository(Like::class); 
 
         $user = $this->getUser();
+        // Gestion des points d'activité
+        $activity_point = $user->getActivityPoint();
+
         $ticket = $ticketRepository->find($id);
         $comments = $commentRepository->findBy(
             ['ticket' => $ticket],
             ['created_at' => 'ASC']
         );
         
-        foreach ($comments as $e){
-            $likes = $e->getLikes();
-            foreach($likes as $like){
-                dump($like->getUser());
-            }
-        }
-        
         // Ajout de commentaire à la fin du ticket
         $form = null;
         if($user){
             $is_usefull = false;
-            $author_id = $user->getId() ;
             $comment = new Comment();
             $comment
-                ->setAuthor($userRepository->find($author_id))
+                ->setAuthor($user)
                 ->setTicket($ticket)
                 ->setIsUsefull($is_usefull)
             ;
             $form = $this->createForm(CommentType::class, $comment);
             $form->handleRequest($request);
             if($form->isSubmitted() && $form->isValid()){
+                $user->setActivityPoint($activity_point+1);
                 $em = $doctrine->getManager();
-                $em->persist($comment);
+                $em->persist($comment,$user);
                 $em->flush();
                 return $this->redirectToRoute('app_ticket_show',['id' => $id]);
             }
@@ -96,7 +92,6 @@ class TicketController extends AbstractController
 
         // Gestion des points d'activité
         $activity_point = $user->getActivityPoint();
-        dump($activity_point);
 
         if($form->isSubmitted() && $form->isValid()){
             $user->setActivityPoint($activity_point+1);
