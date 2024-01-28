@@ -36,6 +36,7 @@ a {
 .header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background-color: $white;
   border-bottom: 1px $gray solid;
   height: 4.5rem;
@@ -278,7 +279,6 @@ a {
 .ticket-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 
   &-header {
     display: flex;

@@ -1,6 +1,6 @@
 {% extends 'layouts/layout_authenticated.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Debug.me{% endblock %}
 
 {% block content %}
 	<main class="home-page">
@@ -19,58 +19,34 @@
 							</span>
 						</a>
 					</div>
+					{% if tickets | length %}
 					<ul class="ticket-list-body">
+						{% for ticket in tickets %}
 						<li class="ticket-list-item">
-							<h4 class="ticket-list-item__title">Comment faire un CRUD</h4>
-							<p class="ticket-list-item__description">Sed leo lacus, imperdiet bibendum porta id, placerat quis ex. In vitae ante a nisl sodales viverra.</p>
-							<ul class="ticket-list-item__list">
-								<li class="chip">PHP</li>
-								<li class="chip">Back-end</li>
-								<li class="chip">SQL</li>
-								<li class="chip">Database</li>
-							</ul>
+							<a href="{{ path('app_ticket_show', { id: ticket.id })}}">
+								<div class="ticket-header">
+									{% if ticket.isDone %}
+										<span class="ticket-list-item__status ticket-list-item__status--done">
+											<i class="fa-solid fa-check"></i>
+										</span>
+									{% else %}
+										<span class="ticket-list-item__status ticket-list-item__status--undone">
+											<i class="fa-solid fa-question"></i>
+										</span>
+									{% endif %}
+									<h4 class="ticket-list-item__title">{{ ticket.title }}</h4>
+								</div>
+								<p class="ticket-list-item__description">{{ ticket.content }}</p>
+								<ul class="ticket-list-item__list">
+									{% for tag in ticket.tags %}
+										<li class="chip">{{ tag.name }}</li>
+									{% endfor %}
+								</ul>
+							</a>
 						</li>
-						<li class="ticket-list-item">
-							<h4 class="ticket-list-item__title">Comment faire un CRUD</h4>
-							<p class="ticket-list-item__description">Sed leo lacus, imperdiet bibendum porta id, placerat quis ex. In vitae ante a nisl sodales viverra.</p>
-							<ul class="ticket-list-item__list">
-								<li class="chip">PHP</li>
-								<li class="chip">Back-end</li>
-								<li class="chip">SQL</li>
-								<li class="chip">Database</li>
-							</ul>
-						</li>
-						<li class="ticket-list-item">
-							<h4 class="ticket-list-item__title">Comment faire un CRUD</h4>
-							<p class="ticket-list-item__description">Sed leo lacus, imperdiet bibendum porta id, placerat quis ex. In vitae ante a nisl sodales viverra.</p>
-							<ul class="ticket-list-item__list">
-								<li class="chip">PHP</li>
-								<li class="chip">Back-end</li>
-								<li class="chip">SQL</li>
-								<li class="chip">Database</li>
-							</ul>
-						</li>
-						<li class="ticket-list-item">
-							<h4 class="ticket-list-item__title">Comment faire un CRUD</h4>
-							<p class="ticket-list-item__description">Sed leo lacus, imperdiet bibendum porta id, placerat quis ex. In vitae ante a nisl sodales viverra.</p>
-							<ul class="ticket-list-item__list">
-								<li class="chip">PHP</li>
-								<li class="chip">Back-end</li>
-								<li class="chip">SQL</li>
-							</ul>
-								<li class="chip">Database</li>
-						</li>
-						<li class="ticket-list-item">
-							<h4 class="ticket-list-item__title">Comment faire un CRUD</h4>
-							<p class="ticket-list-item__description">Sed leo lacus, imperdiet bibendum porta id, placerat quis ex. In vitae ante a nisl sodales viverra.</p>
-							<ul class="ticket-list-item__list">
-								<li class="chip">PHP</li>
-								<li class="chip">Back-end</li>
-								<li class="chip">SQL</li>
-								<li class="chip">Database</li>
-							</ul>
-						</li>
+						{% endfor %}
 					</ul>
+					{% endif %}
 				</div>
 			</article>
 		</div>
