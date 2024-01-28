@@ -12,6 +12,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 use App\Entity\Rank;
 use App\Form\EditUserType;
+use App\Repository\RankRepository;
+use App\Repository\UserRepository;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 #[Route("/profile")]
 class UserController extends AbstractController
@@ -23,11 +26,11 @@ class UserController extends AbstractController
         $userRepository = $doctrine->getRepository(User::class);
         $user = $userRepository->find($id);
         $ranks = $rankRepository->findAll();
-        
+
         // Déterminer le niveau de l'utilisateur
         $base_value = $user->getActivityPoint();
         $array_ranks = [];
-        foreach ($ranks as $rank){
+        foreach ($ranks as $rank) {
             $array_ranks[] = $rank->getRequiredPoint();
         }
 
@@ -35,7 +38,7 @@ class UserController extends AbstractController
         $filtered_array = array_filter($array_ranks, function ($value) use ($base_value) {
             return $value >= $base_value;
         });
-       
+
         // Si le tableau filtré n'est pas vide, trouvez la valeur minimale (la plus proche et supérieure)
         if (!empty($filtered_array)) {
             $closest_value = min($filtered_array); // Valeur du prochain rang
@@ -44,20 +47,23 @@ class UserController extends AbstractController
 
         return $this->render('user/user.html.twig', [
             'controller_name' => 'UserController',
-            'user'=>$user,
-            'title'=>"Un utilisateur",
-            "nextRank"=>$closest_value
+            'user' => $user,
+            'title' => "Un utilisateur",
+            "nextRank" => $closest_value
         ]);
     }
 
     #[Route('/', name: 'app_profile')]
-    public function profile(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function profile(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger, RankRepository $rankRepository): Response
     {
         $user = $this->getUser();
+        $currentRank = $rankRepository->findCurrentRank($user->getActivityPoint());
+        $nextRank = $rankRepository->findNearestSuperiorRank($user->getActivityPoint());
+
         $form = $this->createForm(EditUserType::class, $user);
         $form->handleRequest($request);
-        
-        if($form->isSubmitted() && $form->isValid()) {
+
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $iconFile = $form->get('icon')->getData();
 
@@ -65,7 +71,7 @@ class UserController extends AbstractController
                 $originalFilename = pathinfo($iconFile->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$iconFile->guessExtension();
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $iconFile->guessExtension();
 
                 // Move the file to the directory where brochures are stored
                 try {
@@ -82,13 +88,15 @@ class UserController extends AbstractController
                 $user->setIcon($newFilename);
             }
 
-			$entityManager->flush();
+            $entityManager->flush();
             return $this->redirectToRoute('app_home');
         }
 
         return $this->render('profile/index.html.twig', [
             'user' => $user,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'currentRank' => $currentRank,
+            'nextRank' => $nextRank
         ]);
     }
 

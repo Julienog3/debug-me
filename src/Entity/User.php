@@ -176,6 +176,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function addActivityPoint(int $activity_point): static
+    {
+        $this->activity_point += $activity_point;
+
+        return $this;
+    }
+
     public function getIcon(): ?string
     {
         return $this->icon;

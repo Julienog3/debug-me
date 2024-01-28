@@ -27,7 +27,6 @@ class TicketController extends AbstractController
         $ticketRepository = $doctrine->getRepository(Ticket::class);
         return $this->render('ticket/tickets.html.twig', [
             'tickets' => $ticketRepository->findAll(),
-            'title' => "Tous les tickets"
         ]);
     }
     #[Route('/{id<\d+>}', name: 'app_ticket_show')]
@@ -35,7 +34,6 @@ class TicketController extends AbstractController
     {
         $userRepository = $doctrine->getRepository(User::class);
         $commentRepository = $doctrine->getRepository(Comment::class);
-        $likeRepository = $doctrine->getRepository(Like::class);
 
         $user = $this->getUser();
         $ticket = $ticketRepository->find($id);
@@ -53,20 +51,25 @@ class TicketController extends AbstractController
 
         // Ajout de commentaire à la fin du ticket
         $form = null;
+
         if ($user) {
-            $is_usefull = false;
-            $author_id = $user->getId();
             $comment = new Comment();
             $comment
-                ->setAuthor($userRepository->find($author_id))
+                ->setAuthor($user)
                 ->setTicket($ticket)
-                ->setIsUsefull($is_usefull);
+                ->setIsUsefull(false);
+
             $form = $this->createForm(CommentType::class, $comment);
             $form->handleRequest($request);
+
             if ($form->isSubmitted() && $form->isValid()) {
                 $em = $doctrine->getManager();
+
+                $user->addActivityPoint(1);
+
                 $em->persist($comment);
                 $em->flush();
+
                 return $this->redirectToRoute('app_ticket_show', ['id' => $id]);
             }
         }
@@ -78,25 +81,27 @@ class TicketController extends AbstractController
             "user" => $user
         ]);
     }
-    #[Route('/ajouter', name: 'app_ticket_add')]
+    #[Route('/add', name: 'app_ticket_add')]
     public function add(ManagerRegistry $doctrine, Request $request): Response
     {
         // User connecté
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
 
-        $author_id = $user->getId();
-        $userRepository = $doctrine->getRepository(User::class);
-
         $ticket = new Ticket();
         $form = $this->createForm(TicketType::class, $ticket);
-        $ticket->setAuthor($userRepository->find($author_id));
+        $ticket->setAuthor($user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $doctrine->getManager();
+
+            $user->addActivityPoint(3);
+
             $em->persist($ticket);
             $em->flush();
+
+
             return $this->redirectToRoute('app_ticket');
         }
 

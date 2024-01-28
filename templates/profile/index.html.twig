@@ -9,7 +9,13 @@
       <img class="profile__picture" src="{{ asset('uploads/icons/' ~ user.icon) }}"/>
 			<div class="profile-details">
         <p class="profile-details__title">{{ user.firstname }} {{ user.lastname }}</p>
-        <span class="chip">Diamant</span>
+        <span class="chip">{{ currentRank.name }}</span>
+        <div class="profile-rank">
+          <div class="progress-bar">
+            <span class="progress-bar__inner" style="width: {{ (user.activityPoint / nextRank.requiredPoint) * 100 }}%"></span>
+          </div>
+          <span class="profile-rank__label">{{ user.activityPoint }} / {{ nextRank.requiredPoint }} (prochain rang: {{ nextRank.name }})</span>
+        </div>
       </div>
     </div>
     <div class="card profile-form">
