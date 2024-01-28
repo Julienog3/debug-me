@@ -24,7 +24,7 @@ class RankRepository extends ServiceEntityRepository
     public function findCurrentRank(int $activity_points): ?Rank
     {
         return $this->createQueryBuilder('r')
-            ->andWhere('r.required_point < :activity_points')
+            ->andWhere('r.required_point <= :activity_points')
             ->orderBy('r.required_point', 'DESC')
             ->setParameter('activity_points', $activity_points)
             ->setMaxResults(1)

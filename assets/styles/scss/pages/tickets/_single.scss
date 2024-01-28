@@ -6,6 +6,9 @@
   gap: 1rem;
   padding: 1rem;
   overflow-y: scroll;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
 
   @media only screen and (min-width: 1440px) {
     flex-direction: row;
@@ -166,8 +169,34 @@
 
       &__content {
         color: $black;
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         line-height: 1.5;
+      }
+
+      &-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: .85rem;
+      }
+
+      &-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      &-like {
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+        font-size: .9rem;
+        font-weight: 600;
+      }
+
+      &-actions {
+        display: flex;
+        gap: .5rem;
       }
 
       &:not(:last-child)::before {

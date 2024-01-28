@@ -21,6 +21,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 #[Route("/comment")]
 class CommentController extends AbstractController
 {
+    // #[Route('/{id<\d+>}/remove', name: 'app_comment_delete')]
+    // public function deleteComment(int $ticketId, int $commentId, CommentRepository $commentRepository, EntityManagerInterface $em)
+    // {
+    //     $comment = $commentRepository->find($commentId);
+    //     $em->remove($comment);
+    //     $em->flush();
+    // }
+
     #[Route('/{id<\d+>}/like', name: 'app_comment_like')]
     public function like(int $id, LikeRepository $likeRepository, CommentRepository $commentRepository, EntityManagerInterface $em): JsonResponse
     {

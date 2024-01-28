@@ -36,20 +36,39 @@
                     <li class="ticket-comment">
                         <span class="ticket-comment__dot"></span>
                         <article class="card ticket-comment-card">
-                            <div class="ticket-profile">
-                                <img class="ticket-profile__picture" src="{{ asset('/images/profile-picture.png')}}"/>
-                                {{ ticket.author.firstname }}
-                                {{ ticket.author.lastname }}
+
+                            <div class="ticket-comment-header">
+                                <div class="ticket-profile">
+                                    <img class="ticket-profile__picture" src="{{ asset('uploads/icons/' ~ comment.author.icon) }}"/>
+                                    {{ comment.author.firstname }}
+                                    {{ comment.author.lastname }}
+                                </div>
+                                <p>Posté le {{ comment.createdAt | format_datetime('short', 'short', locale='fr') }}</p>
                             </div>
                             <p class="ticket-comment__content">{{ comment.content }}</p>
-                            <a href="{{ path('app_comment_like', {'id': comment.id}) }}" class="btn btn-link js-like">
-                                <span class="js-likes">{{ comment.likes | length }}</span>
-                                {% if app.user and comment.likedByUser(app.user) %}
-                                    <i class="fas fa-thumbs-up"></i>
-                                {% else %}
-                                    <i class="far fa-thumbs-up"></i>
-                                {% endif %}
-                            </a>
+                            
+                            <div class="ticket-comment-footer">
+                                <div class="ticket-comment-like">
+                                    <a href="{{ path('app_comment_like', {'id': comment.id}) }}" class="btn btn-link js-like">
+                                        <div role="button" class="button button--neutral">
+                                            {% if app.user and comment.likedByUser(app.user) %}
+                                                <i class="fas fa-heart"></i>
+                                            {% else %}
+                                                <i class="far fa-heart"></i>
+                                            {% endif %}
+                                            <p><span class="js-likes">{{ comment.likes | length }}</span> likes</p>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="ticket-comment-actions">
+                                    <a href="{{ path('app_ticket_comment_edit', { ticketId: ticket.id, commentId: comment.id }) }}">
+                                        <div role="button" class="button button--outlined"><i class="fa-solid fa-pen-to-square"></i></div>
+                                    </a>
+                                    <a href="{{ path('app_ticket_comment_delete', { ticketId: ticket.id, commentId: comment.id }) }}">
+                                        <div role="button" class="button button--neutral"><i class="fa-solid fa-trash"></i></div>
+                                    </a>
+                                </div>
+                            </div>
                         </article>
                     </li>
                 {% endfor %}
@@ -77,7 +96,7 @@
             <li class="ticket-list__item">
                 <h2>Ticket crée par</h2>
                 <div class="ticket-profile">
-                    <img class="ticket-profile__picture" src="{{ asset('/images/profile-picture.png')}}"/>
+                    <img class="ticket-profile__picture" src="{{ asset('uploads/icons/' ~ ticket.author.icon)}}"/>
                     {{ ticket.author.firstname }}
                     {{ ticket.author.lastname }}
                 </div>
@@ -115,8 +134,8 @@
 </div>
 
 <script>
-    const LIKE_ICON = 'far fa-thumbs-up';
-    const UNLIKE_ICON = 'fas fa-thumbs-up';
+    const LIKE_ICON = 'fa-regular fa-heart';
+    const UNLIKE_ICON = 'fa-solid fa-heart';
 
     Array.from(document.querySelectorAll('a.js-like')).forEach(function (link) {
         link.addEventListener('click', onClickLink);
@@ -135,10 +154,6 @@
             count.textContent = data.likes;
         } catch (error) {
             console.error(error)
-
-            if (error.response.status === 403) {
-                window.location = '/login'
-            }
         }
     }
 </script>

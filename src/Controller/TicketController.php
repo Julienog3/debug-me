@@ -11,10 +11,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Comment;
 use App\Entity\Ticket;
 use App\Entity\User;
-use App\Entity\Tag;
-use App\Entity\Like;
 use App\Form\TicketType;
 use App\Form\CommentType;
+use App\Repository\CommentRepository;
 use App\Repository\TicketRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -32,7 +31,6 @@ class TicketController extends AbstractController
     #[Route('/{id<\d+>}', name: 'app_ticket_show')]
     public function show(int $id, ManagerRegistry $doctrine, Request $request, TicketRepository $ticketRepository): Response
     {
-        $userRepository = $doctrine->getRepository(User::class);
         $commentRepository = $doctrine->getRepository(Comment::class);
 
         $user = $this->getUser();
@@ -41,13 +39,6 @@ class TicketController extends AbstractController
             ['ticket' => $ticket],
             ['created_at' => 'ASC']
         );
-
-        foreach ($comments as $e) {
-            $likes = $e->getLikes();
-            foreach ($likes as $like) {
-                dump($like->getUser());
-            }
-        }
 
         // Ajout de commentaire à la fin du ticket
         $form = null;
@@ -163,6 +154,42 @@ class TicketController extends AbstractController
 
         return $this->redirectToRoute('app_ticket_show', [
             'id' => $id,
+        ]);
+    }
+
+    #[Route('/{ticketId<\d+>}/comment/{commentId<\d+>}/delete', name: 'app_ticket_comment_delete')]
+    public function deleteComment(int $ticketId, int $commentId, CommentRepository $commentRepository, EntityManagerInterface $em)
+    {
+        $comment = $commentRepository->find($commentId);
+        $em->remove($comment);
+        $em->flush();
+
+        return $this->redirectToRoute('app_ticket_show', [
+            'id' => $ticketId,
+        ]);
+    }
+
+    #[Route('/{ticketId<\d+>}/comment/{commentId<\d+>}/edit', name: 'app_ticket_comment_edit')]
+    public function editComment(int $ticketId, int $commentId, Request $request, CommentRepository $commentRepository, EntityManagerInterface $em)
+    {
+        // Test si connecté et si l'utilisateur possède le ticket
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+
+        $comment = $commentRepository->find($commentId);
+
+        $form = $this->createForm(CommentType::class, $comment);
+        $comment->setModifiedAt(new \DateTime());
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+            return $this->redirectToRoute('app_ticket_show', [
+                'id' => $ticketId,
+            ]);
+        }
+        return $this->render('comment/edit.html.twig', [
+            "form" => $form->createView()
         ]);
     }
 }

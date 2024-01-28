@@ -41,7 +41,7 @@
 											Réponse{{ ticket.comments | length > 1 ? 's' : ''}}
 										</div>
 										<div class="ticket-profile">
-											<img class="ticket-profile__picture" src="{{ asset('/images/profile-picture.png')}}"/>
+											<img class="ticket-profile__picture" src="{{ asset('uploads/icons/' ~ ticket.author.icon) }}"/>
 											{{ ticket.author.firstname }}
 											{{ ticket.author.lastname }}
 										</div>
