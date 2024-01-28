@@ -19,18 +19,17 @@ class EditUserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', null, ['label'=>"Adresse email"])
-            ->add('firstname', null, ['label'=>"Prénom"])
-            ->add('lastname', null, ['label'=>"Nom"])
+            ->add('email', null, ['label' => "Adresse email"])
+            ->add('firstname', null, ['label' => "Prénom"])
+            ->add('lastname', null, ['label' => "Nom"])
             ->add('icon', FileType::class, [
-                'label' => 'Icone',
+                'label' => 'Photo de profil',
                 'mapped' => false, // Le champ n'est pas mappé sur une propriété de l'entité
                 'required' => false, // Le champ n'est pas obligatoire
 
             ])
             ->add('reset', ResetType::class, ['label' => 'Annuler'])
-            ->add('submit', SubmitType::class, ['label' => "Sauvegarder"])
-        ;
+            ->add('submit', SubmitType::class, ['label' => "Sauvegarder"]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

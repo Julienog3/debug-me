@@ -101,14 +101,19 @@ class UserController extends AbstractController
     }
 
     #[Route('/tickets', name: 'app_profile_tickets')]
-    public function profileTickets(Request $request, EntityManagerInterface $entityManager): Response
+    public function profileTickets(Request $request, EntityManagerInterface $entityManager, RankRepository $rankRepository): Response
     {
         $user = $this->getUser();
         $tickets = $user->getTickets();
 
+        $currentRank = $rankRepository->findCurrentRank($user->getActivityPoint());
+        $nextRank = $rankRepository->findNearestSuperiorRank($user->getActivityPoint());
+
         return $this->render('profile/tickets.html.twig', [
             'user' => $user,
             'tickets' => $tickets,
+            'currentRank' => $currentRank,
+            'nextRank' => $nextRank
         ]);
     }
 }
