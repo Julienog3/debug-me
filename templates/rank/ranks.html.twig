@@ -1,46 +1,31 @@
 {% extends 'layouts/layout_authenticated.html.twig' %}
 
-{% block title %}Hello RankController!
-{% endblock %}
+{% block title %}Classement - Debug.me{% endblock %}
 
 
 {% block content %}
-	<style>
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-		.example-wrapper code {
-			background: #F5F5F5;
-			padding: 2px 6px;
-		}
-		.category {
-			margin: 2em 0;
-			border-bottom: 2px solid black
-		}
-	</style>
-
-	<div class="example-wrapper">
-		<h1>Hello
-			{{ title }}! ✅</h1>
-
-		This friendly message is coming from:
-		<ul>
-			{% for rank in ranks %}
-				<li class="category">
-					<p>Rang id :
-						{{ rank.id }}
-					</p>
-					<p>Nom du rang :
-						{{ rank.name }}</p>
-					<p>Logo :
-						{{ rank.logo }}</p>
-					<p>Nombre de points requis :
-						{{ rank.requiredPoint }}</p>
+<div class="rank-page">
+	<h3 class="rank-page__title">Classement</h3>
+	<article class="card">
+		<div class="rank-list">
+			<div class="rank-list-header">
+				<p class="rank-list-header__column">Utilisateur</p>
+				<p class="rank-list-header__column">Rang</p>
+				<p class="rank-list-header__column">Nb de points</p>
+			</div>
+			<ul class="rank-list-body">
+				{% for user in users %}
+				<li class="rank-list-item">
+					<div class="rank-list-item-profile">
+						<img class="rank-list-item__picture" src="{{ asset('uploads/icons/' ~ user.icon) }}"/>
+						<p>{{ user.firstname }} {{ user.lastname }}</p>
+					</div>
+					<span class="chip">{{ user.activityPoint | getRank }}</span>
+					<p class="chip">{{ user.activityPoint }} pts</p>
 				</li>
-			{% endfor %}
-		</ul>
-	</div>
+				{% endfor %}
+			</ul>
+		</div>
+	</article>
+</div>
 {% endblock %}

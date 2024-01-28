@@ -38,6 +38,14 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
+
+    public function findAllSortedByActivityPoints(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->orderBy('u.activity_point', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */

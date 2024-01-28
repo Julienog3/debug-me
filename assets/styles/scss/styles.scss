@@ -14,6 +14,7 @@
 @import "pages/tickets/_list.scss";
 @import "pages/tickets/_single.scss";
 @import "pages/profile/_index.scss";
+@import "pages/rank/index.scss";
 
 body {
   font-family: Poppins;
@@ -147,6 +148,9 @@ a {
   flex-direction: column;
   gap: 1rem;
   padding: 1rem;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
 
   &__title {
     color: $primary;
@@ -201,7 +205,6 @@ a {
     padding: 1rem 0;
 
     .ticket {
-
       &-header {
         display: flex;
         gap: 1rem;
@@ -253,6 +256,9 @@ a {
   border: 1px solid $gray;
   border-radius: 999px;
   padding: .5rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
   color: $black;
   font-size: .8rem;
   width: fit-content;
