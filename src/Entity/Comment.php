@@ -36,7 +36,7 @@ class Comment
     #[ORM\Column]
     private ?bool $isUsefull = null;
 
-    #[ORM\OneToMany(mappedBy: 'comment', targetEntity: Like::class)]
+    #[ORM\OneToMany(mappedBy: 'comment', targetEntity: Like::class, cascade: ["remove"])]
     private Collection $likes;
 
     public function __construct()

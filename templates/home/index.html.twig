@@ -3,74 +3,91 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block content %}
-	<main class="home">
-		<article class="card">
-			<h1 class="card__title">Bonjour John Doe</h1>
-			<p class="card__subtitle">On est ravi de vous revoir</p>
-		</article>
-		<article class="card">
-			<div class="ticket-list">
-				<div class="ticket-list-header">
-					<h3 class="ticket-list-header__title">Tickets récents</h3>
-					<a href="{{ path('app_ticket') }}">
-						<span class="ticket-list-header__link">voir tout
-							<i class="fa-solid fa-arrow-right"></i>
-						</span>
-					</a>
+	<main class="home-page">
+		<div class="left">
+			<article class="card home-card">
+				<h1 class="home-card__title">Bonjour {{ app.user.firstname }} {{ app.user.lastname }}</h1>
+				<p class="home-card__subtitle">On est ravi de vous revoir</p>
+			</article>
+			<article class="card">
+				<div class="ticket-list">
+					<div class="ticket-list-header">
+						<h3 class="ticket-list-header__title">Tickets récents</h3>
+						<a href="{{ path('app_ticket') }}">
+							<span class="ticket-list-header__link">voir tout
+								<i class="fa-solid fa-arrow-right"></i>
+							</span>
+						</a>
+					</div>
+					<ul class="ticket-list-body">
+						<li class="ticket-list-item">
+							<h4 class="ticket-list-item__title">Comment faire un CRUD</h4>
+							<p class="ticket-list-item__description">Sed leo lacus, imperdiet bibendum porta id, placerat quis ex. In vitae ante a nisl sodales viverra.</p>
+							<ul class="ticket-list-item__list">
+								<li class="chip">PHP</li>
+								<li class="chip">Back-end</li>
+								<li class="chip">SQL</li>
+								<li class="chip">Database</li>
+							</ul>
+						</li>
+						<li class="ticket-list-item">
+							<h4 class="ticket-list-item__title">Comment faire un CRUD</h4>
+							<p class="ticket-list-item__description">Sed leo lacus, imperdiet bibendum porta id, placerat quis ex. In vitae ante a nisl sodales viverra.</p>
+							<ul class="ticket-list-item__list">
+								<li class="chip">PHP</li>
+								<li class="chip">Back-end</li>
+								<li class="chip">SQL</li>
+								<li class="chip">Database</li>
+							</ul>
+						</li>
+						<li class="ticket-list-item">
+							<h4 class="ticket-list-item__title">Comment faire un CRUD</h4>
+							<p class="ticket-list-item__description">Sed leo lacus, imperdiet bibendum porta id, placerat quis ex. In vitae ante a nisl sodales viverra.</p>
+							<ul class="ticket-list-item__list">
+								<li class="chip">PHP</li>
+								<li class="chip">Back-end</li>
+								<li class="chip">SQL</li>
+								<li class="chip">Database</li>
+							</ul>
+						</li>
+						<li class="ticket-list-item">
+							<h4 class="ticket-list-item__title">Comment faire un CRUD</h4>
+							<p class="ticket-list-item__description">Sed leo lacus, imperdiet bibendum porta id, placerat quis ex. In vitae ante a nisl sodales viverra.</p>
+							<ul class="ticket-list-item__list">
+								<li class="chip">PHP</li>
+								<li class="chip">Back-end</li>
+								<li class="chip">SQL</li>
+							</ul>
+								<li class="chip">Database</li>
+						</li>
+						<li class="ticket-list-item">
+							<h4 class="ticket-list-item__title">Comment faire un CRUD</h4>
+							<p class="ticket-list-item__description">Sed leo lacus, imperdiet bibendum porta id, placerat quis ex. In vitae ante a nisl sodales viverra.</p>
+							<ul class="ticket-list-item__list">
+								<li class="chip">PHP</li>
+								<li class="chip">Back-end</li>
+								<li class="chip">SQL</li>
+								<li class="chip">Database</li>
+							</ul>
+						</li>
+					</ul>
 				</div>
-				<ul class="ticket-list-body">
-					<li class="ticket-list-item">
-						<h4 class="ticket-list-item__title">Comment faire un CRUD</h4>
-						<p class="ticket-list-item__description">Sed leo lacus, imperdiet bibendum porta id, placerat quis ex. In vitae ante a nisl sodales viverra.</p>
-						<ul class="ticket-list-item__list">
-							<li class="chip">PHP</li>
-							<li class="chip">Back-end</li>
-							<li class="chip">SQL</li>
-							<li class="chip">Database</li>
-						</ul>
-					</li>
-					<li class="ticket-list-item">
-						<h4 class="ticket-list-item__title">Comment faire un CRUD</h4>
-						<p class="ticket-list-item__description">Sed leo lacus, imperdiet bibendum porta id, placerat quis ex. In vitae ante a nisl sodales viverra.</p>
-						<ul class="ticket-list-item__list">
-							<li class="chip">PHP</li>
-							<li class="chip">Back-end</li>
-							<li class="chip">SQL</li>
-							<li class="chip">Database</li>
-						</ul>
-					</li>
-					<li class="ticket-list-item">
-						<h4 class="ticket-list-item__title">Comment faire un CRUD</h4>
-						<p class="ticket-list-item__description">Sed leo lacus, imperdiet bibendum porta id, placerat quis ex. In vitae ante a nisl sodales viverra.</p>
-						<ul class="ticket-list-item__list">
-							<li class="chip">PHP</li>
-							<li class="chip">Back-end</li>
-							<li class="chip">SQL</li>
-							<li class="chip">Database</li>
-						</ul>
-					</li>
-					<li class="ticket-list-item">
-						<h4 class="ticket-list-item__title">Comment faire un CRUD</h4>
-						<p class="ticket-list-item__description">Sed leo lacus, imperdiet bibendum porta id, placerat quis ex. In vitae ante a nisl sodales viverra.</p>
-						<ul class="ticket-list-item__list">
-							<li class="chip">PHP</li>
-							<li class="chip">Back-end</li>
-							<li class="chip">SQL</li>
-						</ul>
-							<li class="chip">Database</li>
-					</li>
-					<li class="ticket-list-item">
-						<h4 class="ticket-list-item__title">Comment faire un CRUD</h4>
-						<p class="ticket-list-item__description">Sed leo lacus, imperdiet bibendum porta id, placerat quis ex. In vitae ante a nisl sodales viverra.</p>
-						<ul class="ticket-list-item__list">
-							<li class="chip">PHP</li>
-							<li class="chip">Back-end</li>
-							<li class="chip">SQL</li>
-							<li class="chip">Database</li>
-						</ul>
-					</li>
-				</ul>
+			</article>
+		</div>
+		<div class="right">
+			<div class="card card-profile">
+      	<img class="card-profile__picture" src="{{ asset('uploads/icons/' ~ app.user.icon) }}"/>
+				<div class="card-profile-details">
+					<p class="card-profile-details__title">{{ app.user.firstname }} {{ app.user.lastname }}</p>
+					<span class="chip">{{ app.user.activityPoint | getRank() }}</span>
+					<div class="card-profile-rank">
+						<div class="progress-bar">
+							<span class="progress-bar__inner" style="width: {{ (app.user.activityPoint / nextRank.requiredPoint) * 100 }}%"></span>
+						</div>
+						<span class="card-profile-rank__label">{{ app.user.activityPoint }} / {{ nextRank.requiredPoint }} (prochain rang: {{ nextRank.name }})</span>
+					</div>
+				</div>
 			</div>
-		</article>
+		</div>
 	</main>
 {% endblock %}

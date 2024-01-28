@@ -17,12 +17,6 @@
 						Accueil
 					</a>
 				</li>
-				<li {% if app.request.get('_route') == '' %} class="nav-list__item nav-list__item--active" {% else %} class="nav-list__item" {% endif %}>
-					<a href="">
-						<i class="fa-solid fa-bell icon"></i>
-						Notifications
-					</a>
-				</li>
 				<li {% if app.request.get('_route') == 'app_rank' %} class="nav-list__item nav-list__item--active" {% else %} class="nav-list__item" {% endif %}>
 					<a href="{{ path('app_rank') }}">
 						<i class="fa-solid fa-ranking-star icon"></i>
