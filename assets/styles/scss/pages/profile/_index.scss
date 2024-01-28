@@ -94,6 +94,13 @@
       display: flex;
       flex-direction: column;
       height: 100%;
+
+      &-header {
+        display: flex; 
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: .5rem;
+      }
       
       .progress-bar {
         height: 1rem;
@@ -113,7 +120,6 @@
       &__title {
         font-size: 1.25rem;
         font-weight: 600;
-        margin-bottom: .5rem;
       }
     }
 

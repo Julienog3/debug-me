@@ -29,6 +29,14 @@
 						Créer un ticket
 					</a>
 				</li>
+				{% if is_granted('ROLE_ADMIN') %}
+				<li {% if app.request.get('_route') == 'app_tag' %} class="nav-list__item nav-list__item--active" {% else %} class="nav-list__item" {% endif %}>
+					<a href="{{ path('app_tag') }}">
+						<i class="fa-solid fa-tag icon"></i>
+						Liste des tags
+					</a>
+				</li>
+				{% endif %}
 			</ul>
 		</nav>
 	</aside>

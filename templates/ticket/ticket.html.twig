@@ -60,6 +60,7 @@
                                         </div>
                                     </a>
                                 </div>
+                                {% if app.user == comment.author or is_granted('ROLE_ADMIN') %}
                                 <div class="ticket-comment-actions">
                                     <a href="{{ path('app_ticket_comment_edit', { ticketId: ticket.id, commentId: comment.id }) }}">
                                         <div role="button" class="button button--outlined"><i class="fa-solid fa-pen-to-square"></i></div>
@@ -68,6 +69,7 @@
                                         <div role="button" class="button button--neutral"><i class="fa-solid fa-trash"></i></div>
                                     </a>
                                 </div>
+                                {% endif %}
                             </div>
                         </article>
                     </li>
@@ -114,7 +116,7 @@
                 {% endif %}
             </li>
         </ul>
-        {% if user == ticket.author %}
+        {% if user == ticket.author or is_granted('ROLE_ADMIN')%}
         <span class="card__divider"></span> 
         <div class="ticket-actions">
             <div class="ticket-actions-edition">
