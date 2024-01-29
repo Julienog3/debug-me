@@ -1,19 +1,38 @@
 {% extends 'layouts/layout_authenticated.html.twig' %}
 
-{% block title %}Hello TagController!{% endblock %}
+{% block title %}Tags - Debug.me{% endblock %}
+
 
 {% block content %}
-
-
-<div class="example-wrapper">
-    <h1>{{ title }}! ✅</h1>
-    <ul>
-        {% for tag in tags %}
-        <li class="category">
-            <p>Tag id : {{ tag.id }} </p>
-            <p>Nom du tag : {{ tag.name }}</p>
-        </li>
-        {% endfor %}
-    </ul>
+<div class="tags-page">
+    <div class="tags-page-header">
+	    <h3 class="tags-page__title">Liste des tags</h3>
+        <a href="{{ path('app_tag_add') }}">
+            <div role="button" class="button button--filled"><i class="fa-solid fa-plus"></i> Ajouter un tag</div>
+        </a>
+    </div>
+	<article class="card">
+		<div class="tags-list">
+			<div class="tags-list-header">
+				<p class="tags-list-header__column">Nom du tag</p>
+				<p class="tags-list-header__column">Actions</p>
+			</div>
+			<ul class="tags-list-body">
+				{% for tag in tags %}
+				<li class="tags-list-item">
+					<span class="chip">{{ tag.name }}</span>
+					<div class="tags-list-item-actions">
+						<a href="{{ path('app_tag_edit', { id: tag.id }) }}">
+                            <div role="button" class="button button--outlined"><i class="fa-solid fa-pen-to-square"></i></div>
+                        </a>
+                        <a href="{{ path('app_tag_delete', { id: tag.id }) }}">
+                            <div role="button" class="button button--neutral"><i class="fa-solid fa-trash"></i></div>
+                        </a>
+					</div>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</article>
 </div>
 {% endblock %}

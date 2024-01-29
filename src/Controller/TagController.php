@@ -13,10 +13,10 @@ use App\Entity\Tag;
 use App\Form\TagType;
 
 #[Route("/tag")]
+#[IsGranted('ROLE_ADMIN')]
 class TagController extends AbstractController
 {
     #[Route('/', name: 'app_tag')]
-    #[IsGranted('ROLE_ADMIN')]
     public function index(ManagerRegistry $doctrine): Response
     {
         $tagRepository = $doctrine->getRepository(Tag::class);
@@ -24,15 +24,6 @@ class TagController extends AbstractController
             'controller_name' => 'TagController',
             'tags' => $tagRepository->findAll(),
             'title' => "Tous les Tags"
-        ]);
-    }
-    #[Route('/{id<\d+>}', name: 'app_tag_show')]
-    public function show(int $id, ManagerRegistry $doctrine): Response
-    {
-        $tagRepository = $doctrine->getRepository(Tag::class);
-        return $this->render('tag/tag.html.twig', [
-            'controller_name' => 'TagController',
-            "tag" => $tagRepository->find($id),
         ]);
     }
     #[Route('/ajouter', name: 'app_tag_add')]
@@ -62,11 +53,9 @@ class TagController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $doctrine->getManager();
             $em->flush();
-            return $this->redirectToRoute('app_tag_show', [
-                'id' => $id
-            ]);
+            return $this->redirectToRoute('app_tag');
         }
-        return $this->render('tag/add.html.twig', [
+        return $this->render('tag/edit.html.twig', [
             "form" => $form->createView()
         ]);
     }

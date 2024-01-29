@@ -1,11 +1,11 @@
 {% extends 'layouts/layout_authenticated.html.twig' %}
 
-{% block title %}Ajouter un tag{% endblock %}
+{% block title %}Edition un tag{% endblock %}
 
 {% block content %}
 	<div class="add-ticket-page">
 		<div class="card">
-			<h1 class="card__title">Ajout d'un tag</h1>
+			<h1 class="card__title">Edition d'un tag</h1>
 			{{ form_start(form, { 'attr' : { 'class': 'form' } }) }}
 
 			<div class="form-group">
@@ -16,7 +16,7 @@
 				<label class="form__label">Couleur</label>
 				<input  name="{{ field_name(form.color) }}" value="{{ field_value(form.color) }}" placeholder="#ff0000" class="form__input">
 			</div>
-            {{ form_widget(form.submit, { 'label': 'Ajouter', 'attr': { 'class': 'button' } }) }}
+            {{ form_widget(form.submit, { 'label': 'Editer', 'attr': { 'class': 'button' } }) }}
             {{ form_end(form) }}
 		</div>
 	{% endblock %}
