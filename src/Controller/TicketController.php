@@ -16,16 +16,34 @@ use App\Form\CommentType;
 use App\Repository\CommentRepository;
 use App\Repository\TicketRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use App\Form\SearchType;
+use App\Model\SearchData;
 
 #[Route("/ticket")]
 class TicketController extends AbstractController
 {
     #[Route('/', name: 'app_ticket')]
-    public function index(ManagerRegistry $doctrine): Response
+    public function index(ManagerRegistry $doctrine,Request $request): Response
     {
         $ticketRepository = $doctrine->getRepository(Ticket::class);
+        
+        $searchData = new SearchData();
+        $form = $this->createForm(SearchType::class, $searchData);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $tickets = $ticketRepository->findBySearch($searchData);
+
+            return $this->render('ticket/tickets.html.twig', [
+                "form" => $form->createView(),
+                "tickets"=>$tickets,
+                ]   
+            );
+        }
+        
         return $this->render('ticket/tickets.html.twig', [
             'tickets' => $ticketRepository->findAll(),
+            'form'=> $form->createView(),
         ]);
     }
     #[Route('/{id<\d+>}', name: 'app_ticket_show')]
