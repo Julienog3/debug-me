@@ -52,10 +52,16 @@
 		</div>
 		<div class="right">
 			<div class="card card-profile">
-      	<img class="card-profile__picture" src="{{ asset('uploads/icons/' ~ app.user.icon) }}"/>
+		{% if(app.user.icon) %}
+      		<img class="card-profile__picture" src="{{ asset('uploads/icons/' ~ app.user.icon) }}"/>
+		{% endif %}
 				<div class="card-profile-details">
 					<p class="card-profile-details__title">{{ app.user.firstname }} {{ app.user.lastname }}</p>
-					<span class="chip">{{ app.user.activityPoint | getRank() }}</span>
+					{% if(app.user.activityPoint) %}
+						<span class="chip">{{ app.user.activityPoint | getRank() }}</span>
+					{% else %}
+						<span class="chip">Débutant</span>
+					{% endif %}
 					<div class="card-profile-rank">
 						<div class="progress-bar">
 							<span class="progress-bar__inner" style="width: {{ (app.user.activityPoint / nextRank.requiredPoint) * 100 }}%"></span>

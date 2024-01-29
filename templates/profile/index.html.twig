@@ -15,7 +15,11 @@
           {% endif %}
         </div>
         
-        <span class="chip">{{ currentRank.name }}</span>
+        {% if(currentRank) %}
+          <span class="chip">{{ currentRank.name }}</span>
+        {% else %}
+          <span class="chip">Débutant</span>
+        {% endif %}
         <div class="profile-rank">
           <div class="progress-bar">
             <span class="progress-bar__inner" style="width: {{ (user.activityPoint / nextRank.requiredPoint) * 100 }}%"></span>
