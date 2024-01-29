@@ -50,11 +50,20 @@
       flex-direction: column;
 
       &__item {
-        display: flex;
-        justify-content: space-between;
-        cursor: pointer;
-        font-size: .9rem;
-        padding: 1.25rem 0;
+        a {
+          display: flex;
+          justify-content: space-between;
+          cursor: pointer;
+          color: $black;
+          font-size: .9rem;
+          padding: 1.25rem 0;
+        }
+
+        &--red { 
+          a {
+            color: #d61600;
+          }
+        }
 
         &:not(:last-child) {
           border-bottom: 1px solid $gray;

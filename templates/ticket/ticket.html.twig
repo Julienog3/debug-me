@@ -83,7 +83,7 @@
             <div class="form-group">
                 {{ form_start(form, { 'attr': {'class': 'ticket-answer-form' } }) }}
                     <textarea rows="6" name="{{ field_name(form.content) }}" value="{{ field_value(form.content) }}" placeholder="Description de la question" class="form__input"></textarea>
-                    {{ form_widget(form.submit, { 'label': 'Envoyer', 'attr': {'class': 'button' } }) }}
+                    {{ form_widget(form.submit, { 'label': 'Envoyer', 'attr': {'class': 'button button--filled' } }) }}
                 {{ form_end(form) }}
             </div>
         </div>

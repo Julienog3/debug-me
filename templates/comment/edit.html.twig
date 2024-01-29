@@ -1,7 +1,18 @@
 {% extends 'layouts/layout_authenticated.html.twig' %}
 
-{% block title %}Edition de Commentaire{% endblock %}
+{% block title %}Edition d'un commentaire - Debug.me{% endblock %}
 
 {% block content %}
-  {{ form(form) }}
+	<div class="add-ticket-page">
+  <div class="card">
+    <h1 class="card__title">Edition d'un commentaire</h1>
+    {{ form_start(form, { 'attr' : { 'class': 'form' } }) }}
+
+    <div class="form-group">
+      <label class="form__label">Contenu du commentaire</label>
+      <textarea rows="6" name="{{ field_name(form.content) }}" placeholder="Contenu du commentaire" class="form__input">{{ field_value(form.content) }}</textarea>
+    </div>
+      {{ form_widget(form.submit, { 'label': 'Editer', 'attr': { 'class': 'button' } }) }}
+      {{ form_end(form) }}
+  </div>
 {% endblock %}
