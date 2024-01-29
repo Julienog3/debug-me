@@ -9,6 +9,7 @@
 	<article class="card">
 		<div class="rank-list">
 			<div class="rank-list-header">
+				<div></div>
 				<p class="rank-list-header__column">Utilisateur</p>
 				<p class="rank-list-header__column">Rang</p>
 				<p class="rank-list-header__column">Nb de points</p>
@@ -16,9 +17,13 @@
 			<ul class="rank-list-body">
 				{% for user in users %}
 				<li class="rank-list-item">
+					<span>#{{ loop.index }}</span>
 					<div class="rank-list-item-profile">
 						<img class="rank-list-item__picture" src="{{ asset('uploads/icons/' ~ user.icon) }}"/>
 						<p>{{ user.firstname }} {{ user.lastname }}</p>
+						{% if app.user == user %}
+							<span class="chip">Moi</span>
+						{% endif %}
 					</div>
 					<span class="chip">{{ user.activityPoint | getRank }}</span>
 					<p class="chip">{{ user.activityPoint }} pts</p>

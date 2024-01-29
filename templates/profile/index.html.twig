@@ -8,7 +8,13 @@
     <div class="card profile-header">
       <img class="profile__picture" src="{{ asset('uploads/icons/' ~ user.icon) }}"/>
 			<div class="profile-details">
-        <p class="profile-details__title">{{ user.firstname }} {{ user.lastname }}</p>
+        <div class="profile-details-header">
+          <p class="profile-details__title">{{ user.firstname }} {{ user.lastname }}</p>
+          {% if is_granted('ROLE_ADMIN') %}
+            <span class="chip chip--active">Admin</span>
+          {% endif %}
+        </div>
+        
         <span class="chip">{{ currentRank.name }}</span>
         <div class="profile-rank">
           <div class="progress-bar">

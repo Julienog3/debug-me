@@ -1,6 +1,8 @@
 {% block header %}
 	<header class="header">
 		<img class="header__icon" src="{{ asset('images/icon.png') }}" alt="Debug.me icon"/>
-		<a href=""><i class="fa-solid fa-life-ring"></i>Aide</a>
+		{% if is_granted('ROLE_ADMIN') %}
+			<span class="chip chip--active">Mode Admin</span>
+		{% endif %}
 	</header>
 {% endblock %}
