@@ -8,6 +8,9 @@
 			<div class="card-header">
 				<h2 class="card__title">Tous les tickets</h2>
 			</div>
+			{% include "components/_search_data.html.twig" with{
+				form: form
+				} only %}
 			<ul class="tickets-list">
 				{% for ticket in tickets %}
 					<li class="tickets-list__item">

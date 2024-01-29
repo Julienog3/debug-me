@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Ticket;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Model\SearchData;
 
 /**
  * @extends ServiceEntityRepository<Ticket>
@@ -21,7 +22,28 @@ class TicketRepository extends ServiceEntityRepository
         parent::__construct($registry, Ticket::class);
     }
 
-//    /**
+    public function findBySearch(SearchData $searchData): array
+    {
+        $queryBuilder = $this->createQueryBuilder("t");
+    
+        if (!empty($searchData->q)) {
+            $queryBuilder
+                ->andWhere($queryBuilder->expr()->like('t.title', ':q'))
+                ->orWhere($queryBuilder->expr()->like('t.content', ':q'))
+                ->setParameter('q', "%{$searchData->q}%");
+        }
+        if(!empty($searchData->tags)){
+            $queryBuilder = $queryBuilder
+                ->join("t.tags","tag")
+                ->andWhere("tag.id IN (:tags)")
+                ->setParameter('tags', $searchData->tags);
+        }
+    
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
+    }
+
 //     * @return Ticket[] Returns an array of Ticket objects
 //     */
 //    public function findByExampleField($value): array
